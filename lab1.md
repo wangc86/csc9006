@@ -220,7 +220,7 @@ int main (void)
 
 Now, modify your program so that all of t1, t2, and t3 will run on CPU 0 when put into execution. Verify this by running t1 an t2 concurrently, and **take a screen shot of `top` showing the row of %Cpu0** (you need to press `1` after typing `top` to see each CPU core's utilization). The following is an example screen shot:
 
-![top](/home/cw/course/csc9006/top.png)
+![](./top.png)
 
  
 
@@ -454,7 +454,7 @@ python3 cdf.py
 
 which will give us the following figure :)
 
-![](/home/cw/course/csc9006/Figure_1.png)
+![](./Figure_1.png)
 
 The figure shows that there are some job has response time exceeding the 5 ms period, which aligns with our earlier observation when evaluating RM scheduling.
 
