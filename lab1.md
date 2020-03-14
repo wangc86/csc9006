@@ -1,6 +1,6 @@
 # CSC9006 Real-Time Systems, Lab 1
 
-This lab assignment is an integrated part of the [real-time systems](https://wangc86.github.io/csc9006/) course taught at [National Taiwan Normal University](https://www.ntnu.edu.tw/). You have two weeks to complete this lab. The hard deadline of submission is Saturday 10 PM, 3/28/2020.
+This lab assignment is an integrated part of the [real-time systems](https://wangc86.github.io/csc9006/) course taught at [National Taiwan Normal University](https://www.ntnu.edu.tw/). You have two weeks to complete this lab. The hard deadline of submission is Tuesday 10 PM, 3/31/2020.
 
 In class, we introduced two classic real-time scheduling algorithms: Rate-Monotonic (RM) and Earliest-Deadline-First (EDF). We gave a simple, two-task example to illustrate how the algorithms work, and we had a glimpse on the use of utilization bound for a schedulability test. 
 
