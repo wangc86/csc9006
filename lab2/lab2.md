@@ -739,7 +739,7 @@ class Publisher {
 //...
 ```
 
-See how it makes use of ``ClientWriter``. The complete code I've put in my GitHub repo for this Lab, and you don't need to implement this part. **Just implement the TODO part in the ``class EventServiceImpl`` in the server code.**
+See how it makes use of ``ClientWriter``. The complete code I've put in my GitHub repo for this Lab, and you don't need to implement this part. **Just implement the TODO part in the ``class EventServiceImpl`` in the server code. Since in this section we do not care about an event subscriber, in your implementation just print out the data that the event service has received.**
 
 Again, [this tutorial](https://grpc.io/docs/tutorials/basic/cpp/) may help you complete the task.
 
