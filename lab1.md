@@ -1,5 +1,9 @@
 # CSC9006 Real-Time Systems, Lab 1
 
+[TOC]
+
+## Introduction
+
 This lab assignment is an integrated part of the [real-time systems](https://wangc86.github.io/csc9006/) course taught at [National Taiwan Normal University](https://www.ntnu.edu.tw/). You have two weeks to complete this lab. The hard deadline of submission is Tuesday 10 PM, 3/31/2020.
 
 In class, we introduced two classic real-time scheduling algorithms: Rate-Monotonic (RM) and Earliest-Deadline-First (EDF). We gave a simple, two-task example to illustrate how the algorithms work, and we had a glimpse on the use of utilization bound for a schedulability test. 
@@ -228,7 +232,7 @@ Now, modify your program so that all of t1, t2, and t3 will run on CPU 0 when pu
 
 Implementing RM scheduling on Linux is straightforward with the help of the built-in `SCHED_FIFO` scheduling policy. Recall that under RM scheduling, the task having a higher rate will be assigned a higher priority, and a running task of a lower priority will be preempted by a task of a higher priority. Therefore, to schedule our task set using RM scheduling, we may assign priority=99 to t1 and priority=98 to both t2 and t3, and use scheduling policy `SCHED_FIFO` for all t1, t2, and t3.
 
-Implement RM scheduling for tasks t1, t2, and t3. Named the executables t1rm, t2rm, and t3rm. Spend some time trying to run some of them concurrently and see how %CPu0 changes.
+Implement RM scheduling for tasks t1, t2, and t3. Name the executables t1rm, t2rm, and t3rm. Spend some time trying to run some of them concurrently and see how %CPu0 changes.
 
 
 
@@ -337,7 +341,7 @@ It shows that the deadline miss ratio of t3rm is about 6%.
 
 **Now, save your output of test.sh to a file named 'rm.output' and put it in your GitHub repo.**
 
-Now we compare the deadline miss ratios under RM with that under an artificial scheduling algorithm named RMI (shorthand for RM-Inverse). In RMI, in contrast to RM, we assign a higher priority to a task of lower rate. In our task set, you can simply switch the priority levels, by replacing the priority level of t1 by that of t2 and the priority level of both t2 and t3 by the previous priority level of t1. Named the new code t1rmi, t2rmi, and t3rmi, respectively.
+Now we compare the deadline miss ratios under RM with that under an artificial scheduling algorithm named RMI (shorthand for RM-Inverse). In RMI, in contrast to RM, we assign a higher priority to a task of lower rate. In our task set, you can simply switch the priority levels, by replacing the priority level of t1 by that of t2 and the priority level of both t2 and t3 by the previous priority level of t1. Name the new code t1rmi, t2rmi, and t3rmi, respectively.
 
 Run the following script to get the deadline miss ratio of t1rmi and t3rmi:
 
