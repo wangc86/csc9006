@@ -11,7 +11,7 @@ In class, we covered priority inversion and two protocols to amend it, and you'v
 * the [pthreads](https://en.wikipedia.org/wiki/POSIX_Threads) standard for multi-threaded programming;
 * [gRPC](https://grpc.io/), Google's RPC framework, to create distributed applications ;
 
-![simpleEventService](/home/cw/course/csc9006/lab1/lab2/simpleEventService.png)
+![simpleEventService](./simpleEventService.png)
 
 In the following, the text in **boldface** indicates the materials that you should push to your GitHub repository. The pthreads examples are adopted from the book ["Pthreads Programming: A POSIX Standard for Better Multiprocessing"](https://www.amazon.com/PThreads-Programming-Standard-Multiprocessing-Nutshell-ebook-dp-B00B5KBVHK/dp/B00B5KBVHK/ref=mt_kindle?_encoding=UTF8&me=&qid=1586584251) by Bradford Nichols, Dick Buttlar, and Jacqueline Proulx Farrell ([example code](https://resources.oreilly.com/examples/9781565921153/)).
 
@@ -376,7 +376,7 @@ Our real-time event service has the following specification:
 
 In the following, we will go through each step and in the end we will have a simple event service like this:
 
-![simpleEventService](/home/cw/course/csc9006/lab1/lab2/simpleEventService.png)
+![simpleEventService](./simpleEventService.png)
 
 Within the even channel, we will use a set of real-time threads to dispatch the events to the event subscriber, following the order of each priority level.
 
@@ -761,7 +761,7 @@ Look at the code you've implemented so far, and think about how you may answer t
 
 Now, it's your show time again! **Use pthreads to implement three real-time tasks within the event service, one for each priority level.** These tasks will be invoked for each data of the corresponding priority level, and the task will perform some computation and will send the data to the event subscriber upon completion. This implements the real-time dispatcher as described in our system model:
 
-![simpleEventService](/home/cw/course/csc9006/lab1/lab2/simpleEventService.png)
+![simpleEventService](./simpleEventService.png)
 
 You may use pthread's condition variables to synchronize the dispatching threads and the publisher proxy thread. For the usage of condition variables, see the cvsimple.c example we've covered in class.
 
