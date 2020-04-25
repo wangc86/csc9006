@@ -1,0 +1,6 @@
+Under RM, t1 can always meet its deadline,
+while t2 might miss its deadline abour 45%
+of time.
+Under RMI, t2 can always meet its deadline,
+while t1 might miss its deadline in some
+rare situations.
