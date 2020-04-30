@@ -301,7 +301,7 @@ pthread_mutex_t mutex_section1 = PTHREAD_MUTEX_INITIALIZER;
 
 ```
 
-Extend your task set to include more middle-priority tasks. Run it several times, tune you workload for each task and/or add more middle-priority tasks, until you see that the response time of the high-priority task would exceed 5ms occasionally. Save and upload that evidence.
+**Extend your task set to include more middle-priority tasks. Run it several times, tune you workload for each task and/or add more middle-priority tasks, until you see that the response time of the high-priority task would exceed 5ms occasionally. Save and upload that evidence.**
 
 Now, under the same configuration, create another version of your code, and let's plug in pthread's support for the Priority Ceiling Protocol:
 
