@@ -306,7 +306,7 @@ pthread_mutex_t mutex_section1 = PTHREAD_MUTEX_INITIALIZER;
 Now, under the same configuration, create another version of your code, and let's plug in pthread's support for the Priority Ceiling Protocol:
 
 ```c++
-// the PIP is applied to the mutex that protects the critical sections
+// the PCP is applied to the mutex that protects the critical sections
     pthread_mutexattr_t mutexattr_prioceiling;
     int mutex_protocol, high_prio;
     high_prio = sched_get_priority_max(SCHED_FIFO);
@@ -323,7 +323,7 @@ Now, under the same configuration, create another version of your code, and let'
 Again, create another version of your code, and this time plug in the Priority Inheritance Protocol:
 
 ```c++
-// similarly, the PCP is applied to the mutex
+// similarly, the PIP is applied to the mutex
     pthread_mutexattr_t mutexattr_prioinherit;
     int mutex_protocol;
     pthread_mutexattr_init (&mutexattr_prioinherit);
