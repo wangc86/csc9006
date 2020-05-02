@@ -306,7 +306,24 @@ pthread_mutex_t mutex_section1 = PTHREAD_MUTEX_INITIALIZER;
 Now, under the same configuration, create another version of your code, and let's plug in pthread's support for the Priority Ceiling Protocol:
 
 ```c++
-// it is applied to the mutex that protects the critical sections
+// the PIP is applied to the mutex that protects the critical sections
+    pthread_mutexattr_t mutexattr_prioceiling;
+    int mutex_protocol, high_prio;
+    high_prio = sched_get_priority_max(SCHED_FIFO);
+    pthread_mutexattr_init (&mutexattr_prioceiling);
+    pthread_mutexattr_getprotocol (&mutexattr_prioceiling,
+                                   &mutex_protocol);
+    pthread_mutexattr_setprotocol (&mutexattr_prioceiling,
+                                   PTHREAD_PRIO_PROTECT);
+    pthread_mutexattr_setprioceiling (&mutexattr_prioceiling,
+                                      high_prio);
+    pthread_mutex_init (&mutex_section1, &mutexattr_prioceiling);
+```
+
+Again, create another version of your code, and this time plug in the Priority Inheritance Protocol:
+
+```c++
+// similarly, the PCP is applied to the mutex
     pthread_mutexattr_t mutexattr_prioinherit;
     int mutex_protocol;
     pthread_mutexattr_init (&mutexattr_prioinherit);
@@ -319,23 +336,6 @@ Now, under the same configuration, create another version of your code, and let'
     }
     pthread_mutex_init (&mutex_section1, &mutexattr_prioinherit);
 
-```
-
-Again, create another version of your code, and this time plug in the Priority Inheritance Protocol:
-
-```c++
-// similarly, the PIP protocol is applied to the mutex 
-    pthread_mutexattr_t mutexattr_prioceiling;
-    int mutex_protocol, high_prio;
-    high_prio = sched_get_priority_max(SCHED_FIFO);
-    pthread_mutexattr_init (&mutexattr_prioceiling);
-    pthread_mutexattr_getprotocol (&mutexattr_prioceiling,
-                                   &mutex_protocol);
-    pthread_mutexattr_setprotocol (&mutexattr_prioceiling,
-                                   PTHREAD_PRIO_PROTECT);
-    pthread_mutexattr_setprioceiling (&mutexattr_prioceiling,
-                                      high_prio);
-    pthread_mutex_init (&mutex_section1, &mutexattr_prioceiling);
 ```
 
 Now run these two versions, and see that now the high-priority task's response time stays around 1ms. **Upload your evidence.**
