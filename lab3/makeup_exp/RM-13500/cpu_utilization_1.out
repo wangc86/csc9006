@@ -1,0 +1,17 @@
+Linux 5.3.0-46-generic (cw-zenbook) 	05/31/2020 	_x86_64_	(8 CPU)
+
+06:10:50 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+06:10:51 PM    0    0.00    0.00    0.98    0.00    0.00    2.94    0.00    0.00    0.00   96.08
+06:10:51 PM    1    0.98    0.00    2.94    0.00    0.00    0.00    0.00    0.00    0.00   96.08
+
+06:10:51 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+06:10:52 PM    0    1.96    0.00    0.00    0.00    0.00    0.98    0.00    0.00    0.00   97.06
+06:10:52 PM    1    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  100.00
+
+06:10:52 PM  CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+06:10:53 PM    0    1.01    0.00    1.01    0.00    0.00    0.00    0.00    0.00    0.00   97.98
+06:10:53 PM    1    1.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   99.00
+
+Average:     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+Average:       0    0.99    0.00    0.66    0.00    0.00    1.32    0.00    0.00    0.00   7.03
+Average:       1    0.67    0.00    1.00    0.00    0.00    0.00    0.00    0.00    0.00   8.33

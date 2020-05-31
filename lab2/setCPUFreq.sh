@@ -6,6 +6,7 @@
 # to meet your machine's configuration.
 for i in $(seq 0 7);
 do
+    sudo cpufreq-set -d 2000000 -c $i -r
     sudo cpufreq-set -u 2000000 -c $i -r
 done
 
