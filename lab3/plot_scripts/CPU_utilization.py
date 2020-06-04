@@ -14,15 +14,17 @@ def mean_confidence_interval(data, confidence=0.95):
     h = se * sp.stats.t.ppf((1+confidence)/2., n-1)
     return m, h
 
+# References for appropriate color schemes:
+# https://davidmathlogic.com/colorblind/
+# https://colorbrewer2.org
+majorColor='#dc267f'
+minorColor='#648fff'
+minorColor2='#ffb000'
 #majorColor='#5e3c99'
 #minorColor='#fdb863'
 #majorColor='k'
 #minorColor='r'
 #minorColor2='b'
-majorColor='#dc267f'
-minorColor='#648fff'
-minorColor2='#ffb000'
-
 
 #import matplotlib as mpl
 #print mpl.__version__
