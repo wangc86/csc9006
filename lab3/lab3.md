@@ -42,7 +42,7 @@ You should test and see whether your implementation is correct. **Think about ho
 ### 2.2 Fault-tolerant real-time messaging
 
 Let's apply what we've learned in class regarding the fault-tolerant real-time analysis. Here we consider a greatly simplified version:
-1. we simply assume the existance of a backup broker and we do not implement it;
+1. we simply assume the existence of a backup broker and we do not implement it;
 2. we assume that all publishers can do the correct switch from the primary broker to the backup broker should the primary broker crash;
 3. we assume that the primary broker do not replicate any message to the backup broker and the fault tolerance solely relies on message retransmission from the publisher;
 4. we assume that both the backup broker and the message publishers can immediately detect the crash of the primary broker, the backup broker can immediately be promoted to become the new primary broker, and each message publisher can immediately resend all message copies it has retained.
@@ -63,22 +63,31 @@ sudo apt install sysstat
 
 You may find the example script 'getUtilization.sh' in the repo.
 
-TODO: I will update the rest of this Section this week.
+**Now, create five sets of message publishers,  each producing ~20%, ~40%, ~60%, ~80%, and ~100% of CPU utilization on the message broker. Make sure that the message broker is running in a CPU core different from the cores running publishers/subscribers. Create these five sets according to the following steps:**
 
-Often, for each test case we need to repeat it several times and obtain (1) the average value; (2) the 95% confidence interval of the value. We will use shell scripts to help us run the experiments automatically. For example, let's say for each workload we will repeat the experiments twenty times, and we have five different workload levels. In addition, we have three scheduling policies to compare. This adds up to 20x5x3=300 runs. If each run takes 2.5 minutes to complete, it would take 12.5 hours to complete the whole set of experiments. We may use some scripts to automatically run the whole set of experiments.
+1. Pick three topic-sending rates (for example: 10 ms, 30 ms, and 50 ms);
+2. For each sending rates, determine some appropriate number of topics, so that in total they will cause the message broker to have CPU%=~20%;
+3. Now, fixing the sending rates, we increase the workload by _only_ increasing the number of middle-rate topics (e.g., the 30-ms topics). Determine some appropriate numbers so that it will cause ~40%, ~60%, ~80%, and ~100% of CPU utilization in the message broker.
+4. **Document both your topic-sending rates and the number of topics for each rate, save them in files named config20.txt, config40.txt, config60.txt, and config80.txt.** You will use these configuration files to let the broker know which configuration it is running (as mentioned in Section 2.1).
 
-The example script 'run.sh' in the repo does the job. I made up some fake data for illustration purpose.
+In order to create these five sets, you may need to repeatedly experiment on both the rate and the number of each topic. For this purpose, you may also leverage the `run.sh` script, which is mainly designed for the purpose described as follows.
 
-Before we can plot the result, we will also need a pre-processing script to extract the data we need. An example is 'parse_util.sh' in the repo.
+Often, for each test case we need to repeat it several times and obtain (1) the average value, (2) the distribution of the values. We will use bash scripts to help us run the experiments automatically. The example script `run.sh` in the repo does the job. I made up some fake data in the repo to illustrate its usage.
 
-Finally, we may plot the result using Matplotlib (we used it once in Lab 1). An example script is also given in the repo.
+**Now, for each of the EDF, RM, and FIFO scheduling strategies, run the above five sets of workloads, and for each set of workload run each strategy ten times; in each run, allow 30 seconds for the system to warm up, and then measure the CPU% and the latency for two minutes.** Note this means it will take at least 3x5x10x2.5=375 minutes, or around 6 hours, to complete the experiment.
 
-cpu0_utilization.pdf is an example output.
+Before we can plot the result, we will also need a pre-processing script to extract the data we need. An example is script `parse_util.sh` in the repo. Finally, we may plot the result using Matplotlib (we have used it in Lab 1). **Plot the following three figures:**
+
+1. The _CPU utilization_ for each of the five sets of message publishers. One for each of the EDF, RM, and FIFO scheduling strategies;
+2. The _average end-to-end latency_ for each of the five sets of message publishers. One for each of the EDF, RM, and FIFO scheduling strategies;
+3. The _99-th percentile of the end-to-end latency_ for each of the five sets of message publishers. Again, one for each of the EDF, RM, and FIFO scheduling strategies.
+
+**And finally, give an analysis of these empirical results. Describe your setup, and compare the performance of EDF, RM, and FIFO, in a way like those research papers you have read did. Name the file "analysis5.txt"**
 
 
 ## 4. Summary
 
-It is nontrivial to do experimental computer science study. I hope this Lab may offer you some glimpse of this art. In summary, a serious experimental study requires
+It is nontrivial to do experimental computer science study. I hope this Lab may offer you some concrete experiences of this art. In summary, a serious experimental study requires
 - Careful planning of the experiments:
 - Familiarity of both scripting and the usage of related tools: 
 - Patience: experiments often take nontrivial amount of time to complete. A good planning and some handy scripts can save you a lot of time.
