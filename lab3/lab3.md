@@ -27,17 +27,26 @@ Here is an approach to implement these three strategies in a unified way. We use
 
 In addition, it give benefits if we can de-couple the task of handling message arrivals from the task of dispatching messages. This can be realized by using one proxy thread and a pool of dispatching threads, as illustrated in the following figure. And you must pin the proxy thread and the set of dispatching threads to two distinct CPU cores. **Write down your analysis of this design decision of de-coupling; list the pros and cons. Name the text file "analysis2.txt."**
 
-In this architecture, multiple threads could concurrently try to read/write the priority queue. Therefore, we should protect the queue by a mutex. And finally, recall that in order to derive the dispatching deadline from the end-to-end deadline, we need to subtract the end-to-end deadline by the other latencies on the end-to-end path. To be precise, we need to subtract (1) the latency from publisher to broker, (2) the latency from broker to subscriber, AND (3) the interval between the arrival of the message at the broker and the time the message is pushed into the priority queue. You may use the C++'s standard chrono library to do these measurements.
+![sample architecture](./lab3_figure1.png)
 
-**Starting from the result of Section 4.7 in Lab 2, implement the above architecture using C++'s standard [priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/) (study its usage) and pthreads. Use command-line arguments to (1) supply a configuration file to your messaging broker, and (2) specify which of the three scheduling policies to use according to a command-line argument; to be specific, your implementation should support the following:**
+In either architecture, multiple threads could concurrently try to read/write the priority queue. Therefore, we should protect the queue by a mutex.
+
+Finally, recall that in order to derive the dispatching deadline from the end-to-end deadline, we need to subtract the end-to-end deadline by the other latencies on the end-to-end path. To be precise, we need to subtract (1) the latency from publisher to broker, (2) the latency from broker to subscriber, AND (3) the interval between the arrival of the message at the broker and the time the message is pushed into the priority queue. You may use the C++'s standard chrono library to do these measurements.
+
+**Now, implement the above architecture using [C++'s standard priority_queue](http://www.cplusplus.com/reference/queue/priority_queue/) and pthreads. Use command-line arguments to**
+
+1. **supply a configuration file to your messaging broker; in the file, at least specify your topic-sending rates and the number of topics for each rate (see Section 3 below for more detail);**
+2. **specify which of the three scheduling policies to use according to a command-line argument.**
+
+**To be specific, your implementation should support the following:**
 
 ```bash
 ./yourBroker -c yourConfigFile -s [EDF|RM|FIFO]
 ```
 
-**Remember to use a mutex to protect your priority queue. AND remember to implement the deadline transformation.**
+**Remember to use a mutex to protect your priority queue. AND remember to implement the deadline transformation.** You may build your architecture upon the results of Sections 4.6 and 4.7 in Lab 2.
 
-You should test and see whether your implementation is correct. **Think about how you would perform the test(s). Clearly describe both your plan and how you actually did it. Name the text file "analysis3.txt"** For example, one of the things you should do is to use some task sets that would be scheduled differently if using different scheduling policies.
+You should test and see whether your implementation is correct. **Recall what we've discussed about the experimental study in class, and think about how you would perform the test(s). Clearly describe both your plan and how you actually did it. Name the text file "analysis3.txt"** For example, one of the things you should do is to use some task sets that would be scheduled differently if using different scheduling policies.
 
 ### 2.2 Fault-tolerant real-time messaging
 
