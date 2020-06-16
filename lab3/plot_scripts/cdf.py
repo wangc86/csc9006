@@ -38,3 +38,4 @@ ax.set_title('Cumulative Distribution Function')
 plt.legend(loc=4)
 
 plt.show()
+#plt.savefig('./cdf.pdf')

@@ -26,6 +26,6 @@ ax.set_ylim(-3,50)
 ax.set_xlabel('Data Type')
 ax.set_ylabel('Latency (seconds)')
 ax.set_title('The Box and Whisker Plot')
-plt.legend(loc=4)
 
 plt.show()
+#plt.savefig('./boxplot.pdf')
