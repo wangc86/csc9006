@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.es";
+option java_outer_classname = "EventServiceProto";
+option objc_class_prefix = "ES";
+
+import public "google/protobuf/timestamp.proto";
+
+package es;
+
+// Interface exported by the server.
+service EventService {
+  rpc Subscribe(TopicRequest) returns (stream TopicData) {}
+  rpc Publish(stream TopicData) returns (NoUse) {}
+}
+
+message TopicRequest {
+  string topic = 2;
+}
+
+message TopicData {
+  string topic = 1;
+  string data = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message NoUse {
+}
