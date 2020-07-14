@@ -64,6 +64,12 @@ class Subscriber {
       //std::cout << "response time = " << google::protobuf::util::TimeUtil::TimestampToMicroseconds(timestamp) - google::protobuf::util::TimeUtil::TimestampToMicroseconds(td.timestamp()) << " ms\n";
     }
     Status status = reader->Finish();
+    if (status.ok()) {
+      std::cout << "Finished receiving data.\n";
+    }
+    else {
+      std::cout << "Error: " << status.error_message() << std::endl;
+    }
   }
 
  private:
@@ -83,7 +89,6 @@ int main(int argc, char** argv) {
   TopicRequest request;
   request.set_topic(argv[2]);
   sub.Subscribe(request);
-  sleep(3600);
 
   return 0;
 }

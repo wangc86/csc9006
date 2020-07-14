@@ -1,9 +1,6 @@
 /*
  * Copyright 2020 Chao Wang
  * This code is based on an example from the official gRPC GitHub
- * 
- *
- * Copyright 2015 gRPC authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +34,7 @@ using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
+using grpc::StatusCode;
 using grpc::ServerWriter;
 using grpc::ServerReader;
 
@@ -45,9 +43,9 @@ using es::EventService;
 using es::TopicData;
 using es::NoUse;
 
-#define MAX_SUBSCRIBERS 10
+#define MAX_SUBSCRIBERS 3
 
-// Logic and data behind the server's behavior.
+// The implementation of the event service.
 class EventServiceImpl final : public EventService::Service {
 
  public:
@@ -59,6 +57,7 @@ class EventServiceImpl final : public EventService::Service {
     }
     else {
       std::cerr << "error: subscription failed (MAX reached)" << std::endl;
+      return Status(StatusCode::RESOURCE_EXHAUSTED, "maximum number of subscribers reached.");
     }
     return Status::OK;
   }
@@ -80,7 +79,7 @@ class EventServiceImpl final : public EventService::Service {
                      ServerWriter<TopicData>* writer) {
     // Associate to the next available one in the list.
     bool success;
-    if (subscriber_index <= MAX_SUBSCRIBERS) {
+    if (subscriber_index < MAX_SUBSCRIBERS) {
       subscribers_[subscriber_index] = writer;
       topics_[subscriber_index].set_topic(request->topic());
       subscriber_index++;
