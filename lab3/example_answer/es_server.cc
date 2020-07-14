@@ -32,6 +32,8 @@
 
 #include <queue>
 #include <utility>
+#include <chrono>
+#include <fstream>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -49,6 +51,10 @@ using es::NoUse;
 bool nonEmptyPQ;
 pthread_mutex_t mutex_PQ;
 pthread_cond_t cv_PQ;
+
+std::string* schedStrategy;
+long long period[3];
+int num[3];
 
 #define MAX_SUBSCRIBERS 3
 
@@ -74,6 +80,7 @@ class EventServiceImpl final : public EventService::Service {
     mutex_PQ = PTHREAD_MUTEX_INITIALIZER;
     cv_PQ = PTHREAD_COND_INITIALIZER;
     subscriber_index = 0;
+    std::chrono::system_clock::time_point baseTime = std::chrono::system_clock::now();
   }
 
   Status Subscribe(ServerContext* context,
@@ -160,18 +167,20 @@ class EventServiceImpl final : public EventService::Service {
   }
 
   int getVal(TopicData td) {
-    int val;
-    switch (SCHED_STRATEGY) {
-      case EDF:
-               val = 1;
-               break;
-      case RM:
-               val = 1;
-               break;
-      case FIFO:
-      default:
-               val = 1;
-               break;
+    long long val;
+    if (*schedStrategy == "EDF") {
+      val = 1;
+    }
+    else if (*schedStrategy == "RM") {
+      val = period[(td.topic()).front() - '0'];
+    }
+    else if (*schedStrategy == "FIFO") {
+      std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
+      val = std::chrono::duration_cast<std::chrono::microseconds>(currentTime - baseTime).count();
+    }
+    else {
+      std::cerr << "Error: undefined scheduling strategy\n";
+      exit(1);
     }
     return val;
   }
@@ -179,7 +188,7 @@ class EventServiceImpl final : public EventService::Service {
   // An auxiliary class that implements the priority-queue's comparing function
   // In this version, the element with the smallest value will be popped first.
   // Therefore, for EDF, we push into this queue the deadline value;
-  // for RM, we push the negative of the rate value;
+  // for RM, we push the period value;
   // for FIFO, we push the timestamp value.
   // We should improve this implementation to make the strategy transparent.
   class myComparison {
@@ -200,13 +209,36 @@ class EventServiceImpl final : public EventService::Service {
   std::priority_queue< std::pair<int,TopicData>,
                        std::vector<std::pair<int,TopicData>>,
                        myComparison > PQ;
-  enum sched_strategy {EDF, RM, FIFO};
-  int SCHED_STRATEGY = FIFO;
   pthread_t dispatching_threads[1];
-  const int idp[1] = {0}; // id of each pthread
+  std::chrono::system_clock::time_point baseTime;
 };
 
-void RunServer() {
+int main(int argc, char** argv) {
+  if (argc != 5) {
+    std::cout << "Usage: " << argv[0] << " -c configurationFile -s [EDF|RM|FIFO]\n";
+    exit(1);
+  }
+
+  std::string str(argv[4]);
+  if (str != "EDF" && str != "RM" && str != "FIFO") {
+    std::cerr << "Error: undefined scheduling strategy\n";
+    exit(1);
+  }
+  schedStrategy = &str;
+
+  // Reading the configuration file of the following format:
+  // topicRate #ofSuchTopics
+  // topicRate #ofSuchTopics
+  // topicRate #ofSuchTopics
+  // where topic rate is in terms of a time interval in microseconds
+  std::ifstream fi;
+  fi.open(argv[2]);
+  for (int i = 0; i < 3; i++) {
+    fi >> period[i];
+    fi >> num[i];
+  }
+  fi.close();
+
   std::string server_address("0.0.0.0:50051");
   EventServiceImpl service;
 
@@ -225,10 +257,7 @@ void RunServer() {
   // Wait for the server to shutdown. Note that some other thread must be
   // responsible for shutting down the server for this call to ever return.
   server->Wait();
-}
 
-int main(int argc, char** argv) {
-  RunServer();
 
   return 0;
 }

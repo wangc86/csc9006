@@ -21,6 +21,10 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <fstream>
+#include <tuple>
+#include <chrono>
+#include <unistd.h>
 
 #include <grpcpp/grpcpp.h>
 
@@ -85,26 +89,79 @@ class Publisher {
   std::unique_ptr<ClientWriter<TopicData> > writer_;
 };
 
-int main(int argc, char** argv) {
-  if (argc != 5) {
-    std::cout << "Usage: " << argv[0] << " -t topic -m message\n";
-    exit(0);
-  }
-  std::string target_str;
-  target_str = "localhost:50051";
+void* pubTask (void* arg) {
+  std::string target_str = "localhost:50051";
   Publisher pub(1, grpc::CreateChannel(
       target_str, grpc::InsecureChannelCredentials()));
+  std::tuple<std::string,int> tup = * (std::tuple<std::string,int>*) arg;
+  std::string topic;
+  long long period;
+  std::tie (topic, period) = tup;
+  std::cout << topic << " " << period << std::endl;
+
   TopicData td;
-  std::cout << "Start to send data to our server..\n";
-  td.set_topic(argv[2]);
-  td.set_data(argv[4]);
+  td.set_topic(topic);
+  td.set_data("test");
+
+  // send data periodically
   struct timeval tv;
-  gettimeofday(&tv, NULL);
-  Timestamp *tp = td.mutable_timestamp();
-  tp->set_seconds(tv.tv_sec);
-  tp->set_nanos(tv.tv_usec * 1000);
-  pub.Publish(td);
+  int delta;
+  while(1) {
+    std::chrono::system_clock::time_point startTime = std::chrono::system_clock::now();
+    gettimeofday(&tv, NULL);
+    Timestamp *tp = td.mutable_timestamp();
+    tp->set_seconds(tv.tv_sec);
+    tp->set_nanos(tv.tv_usec * 1000);
+    pub.Publish(td);
+    std::chrono::system_clock::time_point endTime = std::chrono::system_clock::now();
+    delta = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count();
+    if (delta > period) {
+      continue;
+    }
+    else {
+      usleep (period-delta);
+    }
+  }
   pub.done();
+}
+
+int main(int argc, char** argv) {
+  if (argc != 3) {
+    std::cout << "Usage: " << argv[0] << " -c configurationFile\n";
+    exit(1);
+  }
+
+  // Reading the configuration file of the following format:
+  // topicRate #ofSuchTopics
+  // topicRate #ofSuchTopics
+  // topicRate #ofSuchTopics
+  // where topic rate is in terms of a time interval in microseconds
+  int period[3];
+  int num[3];
+  std::ifstream fi;
+  fi.open(argv[2]);
+  for (int i = 0; i < 3; i++) {
+    fi >> period[i];
+    fi >> num[i];
+  }
+  fi.close();
+
+  pthread_t** pub_threads = new pthread_t*[3];
+  pub_threads[0] = new pthread_t[num[0]];
+  pub_threads[1] = new pthread_t[num[1]];
+  pub_threads[2] = new pthread_t[num[2]];
+  for (int i = 0; i < 3; i++) {
+    std::string istring = std::to_string(i);
+    for (int j = 0; j < num[i]; j++) {
+      std::string jstring = std::to_string(j);
+      std::string ij = istring+jstring;
+      std::tuple<std::string,int> arg(ij,period[i]);
+      pthread_create (&pub_threads[i][j], NULL, pubTask, (void *) &arg);
+      sleep(2);
+    }
+  }
+
+  sleep(36000);
 
   return 0;
 }
