@@ -31,7 +31,7 @@
 #include "es.grpc.pb.h"
 #include <sys/time.h>
 
-//#include <google/protobuf/util/time_util.h>
+#include <google/protobuf/util/time_util.h>
 
 
 using grpc::Channel;
@@ -108,10 +108,13 @@ void* pubTask (void* arg) {
   int delta;
   while(1) {
     std::chrono::system_clock::time_point startTime = std::chrono::system_clock::now();
-    gettimeofday(&tv, NULL);
     Timestamp *tp = td.mutable_timestamp();
+    //Timestamp timestamp = google::protobuf::util::TimeUtil::GetCurrentTime(); // It seems that its resolution is only up to seconds
+    //tp->set_seconds(timestamp.seconds());
+    //tp->set_nanos(timestamp.nanos());
+    gettimeofday(&tv, NULL);
     tp->set_seconds(tv.tv_sec);
-    tp->set_nanos(tv.tv_usec * 1000);
+    tp->set_nanos(tv.tv_usec*1000);
     pub.Publish(td);
     std::chrono::system_clock::time_point endTime = std::chrono::system_clock::now();
     delta = std::chrono::duration_cast<std::chrono::microseconds>(endTime - startTime).count();

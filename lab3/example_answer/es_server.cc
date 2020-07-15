@@ -29,11 +29,14 @@
 #include <unistd.h>
 #include <sched.h>
 #include <cmath>
+#include <sys/time.h>
 
 #include <queue>
 #include <utility>
 #include <chrono>
 #include <fstream>
+
+#include <google/protobuf/util/time_util.h>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -47,6 +50,7 @@ using es::TopicRequest;
 using es::EventService;
 using es::TopicData;
 using es::NoUse;
+using google::protobuf::Timestamp;
 
 bool nonEmptyPQ;
 pthread_mutex_t mutex_PQ;
@@ -100,8 +104,11 @@ class EventServiceImpl final : public EventService::Service {
                    ServerReader<TopicData>* reader,
                    NoUse* nouse) override {
     TopicData td;
+    struct timeval tv;
     while (reader->Read(&td)) {
-      std::cout << "{" << td.topic() << ": " << td.data() << "}" << std::endl;
+      //std::cout << "{" << td.topic() << ": " << td.data() << "}  ";// << std::endl;
+      //gettimeofday(&tv, NULL);
+      //std::cout << "response time = " << (tv.tv_sec - td.timestamp().seconds())*1000000 + (tv.tv_usec*1000 - td.timestamp().nanos())/1000 << "us\n";
       // writeToSubscribers(td);
       // Without de-coupling, we may invoke the above write function here;
       // with de-coupling, we will use another thread to invoke the function.
@@ -130,8 +137,10 @@ class EventServiceImpl final : public EventService::Service {
       }
       TopicData td = std::get<1>(PQ.top());
       PQ.pop();
-      // TODO: check if indeed the PQ is empty
-      nonEmptyPQ = false;
+      // check if indeed the PQ is empty
+      if (PQ.size() == 0) {
+        nonEmptyPQ = false;
+      }
       pthread_mutex_unlock(&mutex_PQ);
       // Now, send the topic data to subscriber(s)
       writeToSubscribers(td);

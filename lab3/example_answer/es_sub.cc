@@ -55,13 +55,13 @@ class Subscriber {
     struct timeval tv;
     std::unique_ptr<ClientReader<TopicData> > reader(
         stub_->Subscribe(&context, request));
-    std::cout << "Start to receive data...\n";
+    std::cout << "Start receiving data...\n";
     while (reader->Read(&td)) {
-//      Timestamp timestamp = google::protobuf::util::TimeUtil::GetCurrentTime();
-      gettimeofday(&tv, NULL);
       std::cout << "{" << td.topic() << ": " << td.data() << "}  ";
-      std::cout << "response time = " << tv.tv_sec - td.timestamp().seconds() << "s " << tv.tv_usec - td.timestamp().nanos()/1000 << "us\n";
-      //std::cout << "response time = " << google::protobuf::util::TimeUtil::TimestampToMicroseconds(timestamp) - google::protobuf::util::TimeUtil::TimestampToMicroseconds(td.timestamp()) << " ms\n";
+      //Timestamp timestamp = google::protobuf::util::TimeUtil::GetCurrentTime(); // It seems that its resolution is only up to seconds
+      //std::cout << "response time = " << google::protobuf::util::TimeUtil::TimestampToNanoseconds(timestamp) - google::protobuf::util::TimeUtil::TimestampToNanoseconds(td.timestamp()) << " ns\n";
+      gettimeofday(&tv, NULL);
+      std::cout << "response time = " << (tv.tv_sec - td.timestamp().seconds())*1000000 + (tv.tv_usec*1000 - td.timestamp().nanos())/1000 << "us\n";
     }
     Status status = reader->Finish();
     if (status.ok()) {
