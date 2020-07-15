@@ -186,18 +186,32 @@ class EventServiceImpl final : public EventService::Service {
 
   int getVal(TopicData td) {
     long long val;
+    //long long val_faultTolerant;
     if (*schedStrategy == "EDF") {
       // Here we suppose the implicit deadline.
-      val = 1;
+      // The absolute deadline is defined to be
+      // the relative deadline plus the timepoint of message creation,
+      // where for the case of implcit deadline the relative
+      // deadline is equal to the topic period.
+      // And to simply the design, we assume that it takes equal time to successfully
+      // deliver each message to the subscriber.
+      // Also, see the comment for the RM scheduing strategy below..
+      val = period[(td.topic()).front() - '0'] + google::protobuf::util::TimeUtil::TimestampToMicroseconds(td.timestamp());
+      // Now, suppose that the publisher can retain k lastest message,
+      // i.e., N=k. Then the absolute dispatching deadline would be the earliest
+      // among the value calculated above and that calculated below:
+      //  val_faultTolerant = period[(td.topic()).front() - '0'] + google::protobuf::util::TimeUtil::TimestampToMicroSeconds(td.timestamp());
+      // It is clear that as long as we suppose the implicit deadline,
+      // val will be no larger than val_faultTolerant (even if N=1).
+      // Therefore, we simple use the value of val calculated above.
     }
     else if (*schedStrategy == "RM") {
       val = period[(td.topic()).front() - '0'];
       // The above is an example of bad programming practice,
       // because it tangled the following:
-      //  (a) the implementation of the scheduling strategy
-      //  (b) the encoding of the topic name
-      // With a good design,
-      // changing (a) should not affect (b), and vice versa.
+      //  (a) the index to the topic period, and
+      //  (b) the encoding of the topic name.
+      // With a good design, (a) and (b) should be independent.
     }
     else if (*schedStrategy == "FIFO") {
       std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
@@ -212,7 +226,7 @@ class EventServiceImpl final : public EventService::Service {
 
   // An auxiliary class that implements the priority-queue's comparing function
   // In this version, the element with the smallest value will be popped first.
-  // Therefore, for EDF, we push into this queue the deadline value;
+  // Therefore, for EDF, we push into this queue the absolute deadline value;
   // for RM, we push the period value;
   // for FIFO, we push the timestamp value.
   // We should improve this implementation to make the strategy transparent.
