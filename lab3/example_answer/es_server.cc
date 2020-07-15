@@ -72,13 +72,16 @@ class EventServiceImpl final : public EventService::Service {
     //  (1) https://thispointer.com/c-how-to-pass-class-member-function-to-pthread_create/
     //  (2) https://stackoverflow.com/questions/1151582/pthread-function-from-a-class
     // We need to do this in order to use a non-static member function
-    // (making the member function static will cause other troubles..)
+    // (making the member function static will cause other troubles.).
+    // No need to do this if we were to move the dispatchTask outside this class,
+    // but then we should not have the dispatchTask access private members in the class..
+    // Object-Oriented Design is an art that takes much experience to master.
     typedef void * (*THREADFUNCPTR)(void *);
     pthread_create (&dispatching_threads[0], NULL,
                     (THREADFUNCPTR) &EventServiceImpl::dispatchTask,
                     this);
     // For now, we use only one dispatching thread;
-    // it may be of interest to use multiple dispatching threads.
+    // As a further study, try to use multiple dispatching threads.
     //pinCPU(1);
     nonEmptyPQ = false;
     mutex_PQ = PTHREAD_MUTEX_INITIALIZER;
@@ -91,7 +94,7 @@ class EventServiceImpl final : public EventService::Service {
                    const TopicRequest* request,
                    ServerWriter<TopicData>* writer) override {
     if (addSubscriber(request, writer)) {
-      sleep(36000); // preserve the validity of the writer pointer; sleep for 10 hours in this case
+      sleep(36000); // preserve the validity of the writer pointer (sleep for 10 hours in this case)
     }
     else {
       std::cerr << "error: subscription failed (MAX reached)" << std::endl;
@@ -106,7 +109,10 @@ class EventServiceImpl final : public EventService::Service {
     TopicData td;
     struct timeval tv;
     while (reader->Read(&td)) {
+      // Often, we need to remove debug messages before shipping our program, because
+      // outputing debug messages to IO may severely impact the timing performance of our program.
       //std::cout << "{" << td.topic() << ": " << td.data() << "}  ";// << std::endl;
+
       //gettimeofday(&tv, NULL);
       //std::cout << "response time = " << (tv.tv_sec - td.timestamp().seconds())*1000000 + (tv.tv_usec*1000 - td.timestamp().nanos())/1000 << "us\n";
       // writeToSubscribers(td);
@@ -141,6 +147,9 @@ class EventServiceImpl final : public EventService::Service {
       if (PQ.size() == 0) {
         nonEmptyPQ = false;
       }
+      // As an exercise, comment out the above condition
+      // and see how that would change the end-to-end latency.
+      // How would you explain this phenomenon?
       pthread_mutex_unlock(&mutex_PQ);
       // Now, send the topic data to subscriber(s)
       writeToSubscribers(td);
@@ -178,10 +187,17 @@ class EventServiceImpl final : public EventService::Service {
   int getVal(TopicData td) {
     long long val;
     if (*schedStrategy == "EDF") {
+      // Here we suppose the implicit deadline.
       val = 1;
     }
     else if (*schedStrategy == "RM") {
       val = period[(td.topic()).front() - '0'];
+      // The above is an example of bad programming practice,
+      // because it tangled the following:
+      //  (a) the implementation of the scheduling strategy
+      //  (b) the encoding of the topic name
+      // With a good design,
+      // changing (a) should not affect (b), and vice versa.
     }
     else if (*schedStrategy == "FIFO") {
       std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
