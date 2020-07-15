@@ -47,12 +47,16 @@ using es::NoUse;
 
 using google::protobuf::Timestamp;
 
-void pinCPU (int cpu_number)
+void pinCPU ()
 {
     cpu_set_t mask;
     CPU_ZERO(&mask);
 
-    CPU_SET(cpu_number, &mask);
+    CPU_SET(3, &mask);
+    CPU_SET(4, &mask);
+    CPU_SET(5, &mask);
+    CPU_SET(6, &mask);
+    CPU_SET(7, &mask);
 
     if (sched_setaffinity(0, sizeof(cpu_set_t), &mask) == -1)
     {
@@ -96,7 +100,7 @@ class Publisher {
       exit(0);
     }
     else {
-      std::cout << "sent {" << td.topic() << ": " << td.data() << "}" << std::endl;
+      ;//std::cout << "sent {" << td.topic() << ": " << td.data() << "}" << std::endl;
     }
   }
 
@@ -126,7 +130,7 @@ void* pubTask (void* arg) {
   std::string topic;
   long long period;
   std::tie (topic, period) = tup;
-  std::cout << topic << " " << period << std::endl;
+  //std::cout << topic << " " << period << std::endl;
 
   TopicData td;
   td.set_topic(topic);
@@ -158,8 +162,8 @@ void* pubTask (void* arg) {
 }
 
 int main(int argc, char** argv) {
-  if (argc != 3) {
-    std::cout << "Usage: " << argv[0] << " -c configurationFile\n";
+  if (argc != 5) {
+    std::cout << "Usage: " << argv[0] << " -c configurationFile -i id\n";
     exit(1);
   }
 
@@ -182,18 +186,20 @@ int main(int argc, char** argv) {
   pub_threads[0] = new pthread_t[num[0]];
   pub_threads[1] = new pthread_t[num[1]];
   pub_threads[2] = new pthread_t[num[2]];
-  pinCPU(3);
+  pinCPU();
   setSchedulingPolicy(SCHED_RR, 99);
-  for (int i = 0; i < 3; i++) {
+  //for (int i = 0; i < 3; i++) {
+  int i = argv[4][0] - '0';
+  //std::cout << i << std::endl;
     std::string istring = std::to_string(i);
     for (int j = 0; j < num[i]; j++) {
-      std::string jstring = std::to_string(j);
-      std::string ij = istring+jstring;
-      std::tuple<std::string,int> arg(ij,period[i]);
+     // std::string jstring = std::to_string(j);
+     // std::string ij = istring+jstring;
+      std::tuple<std::string,int> arg(std::to_string(i),period[i]);
       pthread_create (&pub_threads[i][j], NULL, pubTask, (void *) &arg);
-      sleep(1);
+      usleep(100);
     }
-  }
+  //}
 
   sleep(36000);
 

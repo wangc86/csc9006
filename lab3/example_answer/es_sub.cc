@@ -84,20 +84,21 @@ class Subscriber {
     struct timeval tv;
     std::unique_ptr<ClientReader<TopicData> > reader(
         stub_->Subscribe(&context, request));
-    std::cout << "Start receiving data...\n";
+    //std::cout << "Start receiving data...\n";
     while (reader->Read(&td)) {
-      std::cout << "{" << td.topic() << ": " << td.data() << "}  ";
+      //std::cout << "{" << td.topic() << ": " << td.data() << "}  ";
       //Timestamp timestamp = google::protobuf::util::TimeUtil::GetCurrentTime(); // It seems that its resolution is only up to seconds
       //std::cout << "response time = " << google::protobuf::util::TimeUtil::TimestampToNanoseconds(timestamp) - google::protobuf::util::TimeUtil::TimestampToNanoseconds(td.timestamp()) << " ns\n";
       gettimeofday(&tv, NULL);
-      std::cout << "response time = " << (tv.tv_sec - td.timestamp().seconds())*1000000 + (tv.tv_usec*1000 - td.timestamp().nanos())/1000 << "us\n";
+//      std::cout << "response time = " << (tv.tv_sec - td.timestamp().seconds())*1000000 + (tv.tv_usec*1000 - td.timestamp().nanos())/1000 << "us\n";
+      std::cout << (tv.tv_sec - td.timestamp().seconds())*1000000 + (tv.tv_usec*1000 - td.timestamp().nanos())/1000 << std::endl;
     }
     Status status = reader->Finish();
     if (status.ok()) {
       std::cout << "Finished receiving data.\n";
     }
     else {
-      std::cout << "Error: " << status.error_message() << std::endl;
+      std::cerr << "Error: " << status.error_message() << std::endl;
     }
   }
 

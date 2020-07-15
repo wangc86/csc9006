@@ -178,7 +178,7 @@ class EventServiceImpl final : public EventService::Service {
  private:
 
   void* dispatchTask (void *) {
-    std::cout << "Starting a dispatching task...\n";
+    //std::cout << "Starting a dispatching task...\n";
     //pinCPU(1);
     setSchedulingPolicyThread(SCHED_FIFO, 99);
     while (1) {
@@ -223,7 +223,7 @@ class EventServiceImpl final : public EventService::Service {
     // tracking the set of interested subscribers. Though for a
     // small-scale application scenario it is not necessary.
     for (int i = 0; i < subscriber_index; i++) {
-      if (topics_[i].topic() == td.topic()) {
+      if ((topics_[i].topic().front()-'0') == (td.topic()).front()-'0') {
         subscribers_[i]->Write(td);
       }
     }
@@ -336,7 +336,7 @@ int main(int argc, char** argv) {
   builder.RegisterService(&service);
   // Finally assemble the server.
   std::unique_ptr<Server> server(builder.BuildAndStart());
-  std::cout << "Server listening on " << server_address << std::endl;
+  //std::cout << "Server listening on " << server_address << std::endl;
 
   // Wait for the server to shutdown. Note that some other thread must be
   // responsible for shutting down the server for this call to ever return.
