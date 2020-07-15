@@ -30,6 +30,7 @@
 
 #include "es.grpc.pb.h"
 #include <sys/time.h>
+#include <sched.h>
 
 #include <google/protobuf/util/time_util.h>
 
@@ -45,6 +46,34 @@ using es::TopicData;
 using es::NoUse;
 
 using google::protobuf::Timestamp;
+
+void pinCPU (int cpu_number)
+{
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+
+    CPU_SET(cpu_number, &mask);
+
+    if (sched_setaffinity(0, sizeof(cpu_set_t), &mask) == -1)
+    {
+        perror("sched_setaffinity");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void setSchedulingPolicy (int newPolicy, int priority)
+{
+    sched_param sched;
+    if (sched_getparam(0, &sched)) {
+        perror("sched_getparam");
+        exit(EXIT_FAILURE);
+    }
+    sched.sched_priority = priority;
+    if (sched_setscheduler(0, newPolicy, &sched)) {
+        perror("sched_setscheduler");
+        exit(EXIT_FAILURE);
+    }
+}
 
 class Publisher {
  public:
@@ -153,6 +182,8 @@ int main(int argc, char** argv) {
   pub_threads[0] = new pthread_t[num[0]];
   pub_threads[1] = new pthread_t[num[1]];
   pub_threads[2] = new pthread_t[num[2]];
+  pinCPU(3);
+  setSchedulingPolicy(SCHED_RR, 99);
   for (int i = 0; i < 3; i++) {
     std::string istring = std::to_string(i);
     for (int j = 0; j < num[i]; j++) {
@@ -160,7 +191,7 @@ int main(int argc, char** argv) {
       std::string ij = istring+jstring;
       std::tuple<std::string,int> arg(ij,period[i]);
       pthread_create (&pub_threads[i][j], NULL, pubTask, (void *) &arg);
-      sleep(2);
+      sleep(1);
     }
   }
 

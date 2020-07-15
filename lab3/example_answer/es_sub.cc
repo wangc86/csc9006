@@ -28,6 +28,7 @@
 
 #include <unistd.h>
 #include <sys/time.h>
+#include <sched.h>
 
 #include <google/protobuf/util/time_util.h>
 
@@ -42,6 +43,34 @@ using es::TopicData;
 using es::NoUse;
 
 using google::protobuf::Timestamp;
+
+void pinCPU (int cpu_number)
+{
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+
+    CPU_SET(cpu_number, &mask);
+
+    if (sched_setaffinity(0, sizeof(cpu_set_t), &mask) == -1)
+    {
+        perror("sched_setaffinity");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void setSchedulingPolicy (int newPolicy, int priority)
+{
+    sched_param sched;
+    if (sched_getparam(0, &sched)) {
+        perror("sched_getparam");
+        exit(EXIT_FAILURE);
+    }
+    sched.sched_priority = priority;
+    if (sched_setscheduler(0, newPolicy, &sched)) {
+        perror("sched_setscheduler");
+        exit(EXIT_FAILURE);
+    }
+}
 
 class Subscriber {
  public:
@@ -82,6 +111,8 @@ int main(int argc, char** argv) {
     std::cout << "Usage: " << argv[0] << " -t topic\n";
     exit(0);
   }
+  pinCPU(2);
+  setSchedulingPolicy(SCHED_FIFO, 99);
   std::string target_str;
   target_str = "localhost:50051";
   Subscriber sub(2, grpc::CreateChannel(

@@ -62,12 +62,57 @@ int num[3];
 
 #define MAX_SUBSCRIBERS 3
 
+void pinCPU (int cpu_number)
+{
+    cpu_set_t mask;
+    CPU_ZERO(&mask);
+
+    CPU_SET(cpu_number, &mask);
+
+    // Note: for pthreads, use pthread_setaffinity_np instead
+    if (sched_setaffinity(0, sizeof(cpu_set_t), &mask) == -1)
+    {
+        perror("sched_setaffinity");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void setSchedulingPolicy (int newPolicy, int priority)
+{
+    sched_param sched;
+    if (sched_getparam(0, &sched)) {
+        perror("sched_getparam");
+        exit(EXIT_FAILURE);
+    }
+    sched.sched_priority = priority;
+    if (sched_setscheduler(0, newPolicy, &sched)) {
+        perror("sched_setscheduler");
+        exit(EXIT_FAILURE);
+    }
+}
+
+void setSchedulingPolicyThread (int newPolicy, int priority)
+{
+    sched_param sched;
+    int oldPolicy;
+    if (pthread_getschedparam(pthread_self(), &oldPolicy, &sched)) {
+        perror("pthread_getschedparam");
+        exit(EXIT_FAILURE);
+    }
+    sched.sched_priority = priority;
+    if (pthread_setschedparam(pthread_self(), newPolicy, &sched)) {
+        perror("pthread_setschedparam");
+        exit(EXIT_FAILURE);
+    }
+}
+
 // The implementation of the event service.
 class EventServiceImpl final : public EventService::Service {
 
  public:
   EventServiceImpl() {
-    //pinCPU(0);
+    pinCPU(0);
+    setSchedulingPolicy(SCHED_FIFO, 98);
     // The following way to create a thread is derived from
     //  (1) https://thispointer.com/c-how-to-pass-class-member-function-to-pthread_create/
     //  (2) https://stackoverflow.com/questions/1151582/pthread-function-from-a-class
@@ -82,7 +127,6 @@ class EventServiceImpl final : public EventService::Service {
                     this);
     // For now, we use only one dispatching thread;
     // As a further study, try to use multiple dispatching threads.
-    //pinCPU(1);
     nonEmptyPQ = false;
     mutex_PQ = PTHREAD_MUTEX_INITIALIZER;
     cv_PQ = PTHREAD_COND_INITIALIZER;
@@ -135,7 +179,8 @@ class EventServiceImpl final : public EventService::Service {
 
   void* dispatchTask (void *) {
     std::cout << "Starting a dispatching task...\n";
-    //setSchedulingPolicy(SCHED_FIFO, 99);
+    //pinCPU(1);
+    setSchedulingPolicyThread(SCHED_FIFO, 99);
     while (1) {
       pthread_mutex_lock(&mutex_PQ);
       while (!nonEmptyPQ) {
