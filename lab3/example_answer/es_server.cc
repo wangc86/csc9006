@@ -58,7 +58,7 @@ pthread_cond_t cv_PQ;
 
 std::string* schedStrategy;
 long long period[3];
-int num[3];
+int num[3]; // not used in this version
 
 #define MAX_SUBSCRIBERS 3
 
@@ -165,8 +165,8 @@ class EventServiceImpl final : public EventService::Service {
       // In our implementation, it will be the thread who takes data out of the
       // priority queue.
       pthread_mutex_lock(&mutex_PQ);
-      int val = getVal(td);
-      std::pair <int,TopicData> element (val, td);
+      long long val = getVal(td);
+      std::pair <long long,TopicData> element (val, td);
       PQ.push(element);
       nonEmptyPQ = true;
       pthread_cond_broadcast(&cv_PQ);
@@ -223,13 +223,14 @@ class EventServiceImpl final : public EventService::Service {
     // tracking the set of interested subscribers. Though for a
     // small-scale application scenario it is not necessary.
     for (int i = 0; i < subscriber_index; i++) {
-      if ((topics_[i].topic().front()-'0') == (td.topic()).front()-'0') {
+      //if ((topics_[i].topic().front()-'0') == (td.topic()).front()-'0') {
+      if (topics_[i].topic() == td.topic()) {
         subscribers_[i]->Write(td);
       }
     }
   }
 
-  int getVal(TopicData td) {
+  long long getVal(TopicData td) {
     long long val;
     //long long val_faultTolerant;
     if (*schedStrategy == "EDF") {
@@ -278,7 +279,7 @@ class EventServiceImpl final : public EventService::Service {
   class myComparison {
   public:
     myComparison() {};
-    bool operator() (const std::pair<int,TopicData>& lhs, const std::pair<int,TopicData>& rhs) const
+    bool operator() (const std::pair<long long,TopicData>& lhs, const std::pair<long long,TopicData>& rhs) const
     {
       if (std::get<0>(lhs) > std::get<0>(rhs))
         return true;
@@ -290,8 +291,8 @@ class EventServiceImpl final : public EventService::Service {
   ServerWriter<TopicData>* subscribers_[MAX_SUBSCRIBERS];
   TopicData topics_[MAX_SUBSCRIBERS]; //TODO: merge this to subscribers_
   int subscriber_index; //FIXME: protect it by a mutex
-  std::priority_queue< std::pair<int,TopicData>,
-                       std::vector<std::pair<int,TopicData>>,
+  std::priority_queue< std::pair<long long,TopicData>,
+                       std::vector<std::pair<long long,TopicData>>,
                        myComparison > PQ;
   pthread_t dispatching_threads[1];
   std::chrono::system_clock::time_point baseTime;
@@ -319,7 +320,7 @@ int main(int argc, char** argv) {
   fi.open(argv[2]);
   for (int i = 0; i < 3; i++) {
     fi >> period[i];
-    fi >> num[i];
+    fi >> num[i]; // not used in this version
   }
   fi.close();
 
