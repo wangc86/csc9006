@@ -1,0 +1,26 @@
+resp1.png shows that the response time is approximately
+uniformly distributed between 0 and 550 ms. The uniform
+distribution here is the result of the uniform
+distribution of the intervals between two SIGUSR1 (see
+driver.c). The maximum response time is around 550 ms,
+because the timer interval is 500 ms and the workload
+is 50 ms. Notice that there are samples with response
+time being less than 50 ms. This will happen whenever
+there is a SIGUSR1 caught during the execution of the
+workload.
+
+resp2.png shows that the response time is approximately
+uniformly distributed between 50 and 175 ms, for the
+reason similar to that for resp1.png.
+
+From the comparison of resp1.png and resp2.png, it seems
+that with a shorter timer interval it is less likely
+that the response time will be less than 50 ms. This is
+hard to explain. It turns out that the phenomenon is
+just due to variations in experiments. Repeating the
+experiment with a different seed for random number
+generator (see resp.out.100.2 and resp.out.500.2), we
+then observed that both plots show close-to-zero samples
+with response time being less than 50 ms. It is a good
+lesson that we ought to repeat our experiments multiple
+times - otherwise we might over-explain the data.

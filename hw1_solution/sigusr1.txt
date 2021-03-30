@@ -1,0 +1,8 @@
+1. SIGUSR1 is a user-defined signal. There are
+two user-defined signals in Linux's standard
+signals, one is SIGUSR1 and the other is SIGUSR2.
+
+2. According to what listed in the man page,
+the default action of SIGUSR1 is `Term`, which,
+as described in the same man page, will terminate
+the process that got the signal.
