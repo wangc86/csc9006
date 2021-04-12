@@ -1,0 +1,24 @@
+Q1 Answer:
+Anytime algorithms may improve the responsivenss of a system,
+because when the deadline occurs they will produce the latest
+version of the result; in other words, the responsiveness of
+a task scheduled by an anytime algorithm is upper-bounded by
+the smallest between its deadline and its WCET. Note that
+this also implies that other applications (i.e., other tasks)
+will not be further delayed by this task. So, the overall
+responsiveness of a system is improved. The utilization of a
+system may be improved because, as long as time permits, such
+algorithms may keep iterating for a better result.
+
+Q2 Answer:
+The answer is yes. Because the total CPU utlization of this
+task set is 70%, which is less than 82%, the bound of the RM
+scheduling policy for a two-task set.
+
+Q3 Answer:
+Here is one possible answer:
+Task1: p1=4, c1=3
+Task2: p2=5, c2=1.1
+In this case, the first release of task 2 will miss its
+deadline should we suppose that the system begins at the
+critical instant.

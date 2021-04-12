@@ -1,0 +1,11 @@
+Q1 Answer:
+SCHED_OTHER tries to ensure fair progress among all threads
+of 0 priority level; SCHED_FIFO prioritizes the execution of
+threads by their relative priority levels. See `man sched`
+for a more detail account.
+
+Q2 Answer:
+No. sched_priority refers to the real-time priority.
+setpriority() only changes the nice value of the process.
+They are independent.
+See both `man sched` and `man setpriority` for detail.

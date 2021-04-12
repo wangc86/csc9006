@@ -1,0 +1,8 @@
+The result clearly shows the effect of the RM scheduling
+polic. Task t1 is of a higher priority level, and thus
+its response time is approximately equal to its execution
+time (50 ms). Interestingly, while we set the execution
+time for Task t2 to 80 ms, the resulting response time is
+around 130 ms for most cases. This implies that each round
+of execution of t2 was delayed by the execution of t1 once
+(which has 50 ms execution time), i.e., 130=80+50.

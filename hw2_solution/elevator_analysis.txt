@@ -1,0 +1,33 @@
+The answer is that we cannot. For example, elevator.png shows
+that there are more than 15% probability that the response time
+will be larger than 160 ms.
+
+In theory, the best-case response time is 80 ms (assuming that
+the whole 50-ms workload is taken into account), and that can
+happen when the release instant of the 50-ms workload is just
+right after the completion of the execution of the 30-ms workload:
+there will be a 40-ms interval before the next release of the
+30-ms workload, and our lower-priority control can execute for
+that 40 ms and then continue only after another 30 ms for the
+remaining 10-ms workload; so, 40+30+10=80 ms. If instead we
+consider the critical instant, then the response time of the
+control would be 30+40+30+10=110 ms, which is still smaller
+than 160 ms.
+
+So, what's wrong? Why would our empirical result goes against
+our above anallysis? The answer is that there is actually a
+delay before the release of the 50-ms workload, since we do the
+time-trigger control, not the event-trigger control. In the worst
+case, the release of the 50-ms workload could be delayed by
+100 ms (i.e., the period of the timer). Therefore, the worst-case
+response time of the control is 110+100=210 ms. In average, if
+we consider the uniform distribution of the botton-press event,
+then that additional delay would be around 50 ms.
+
+If your result looks very similar to what you've got in hw1,
+you may want to double check whether you've pinned both the
+high-priority task and the control task to the same CPU core;
+otherwise, either of the tasks may migrate to a different core,
+which would break our assumption of the single-core CPU system;
+in that case, the result could be very different from what we
+analyzed here.
