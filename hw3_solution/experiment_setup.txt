@@ -1,0 +1,27 @@
+Here is one possible setting:
+I use only one middle-priority task,
+with period = 211 ms and WCET = 70 ms
+Total CPU utilization = 30/139+100/257+70/211 = 0.936 < 1.0
+
+and here is my reason:
+To make the response time of the high-priority task
+exceed 100 ms, we should make the total WCET of our
+middle-priority task(s) at least 100-30-20=50 ms,
+where the 30 ms is the WCET of the high-priority task
+and the 20 ms is the blocking time by the low-priority
+task. We should make the WCET of the middle-priority
+task much longer than 50 ms, to increase the chance
+for us to observe the >100 ms response time. But we
+also need to be careful not make the WCET too long,
+to not violate our constraints: for the RM scheduling
+policy, we must set the period of our middle-priority
+task between 139 ms and 257 ms; further, the CPU
+utilization must not exceed 1.0, and the given two
+tasks have contributed 30/139+100/257=0.605. So, we
+must be careful in choosing both the WCET and the period
+for our middle-priority task. I chose 211 for our
+period because it is a prime number.
+
+The attached c.d.f. plots are for your references
+(they were created using cdf.py). You can also plot
+and visualize your experimental results.
