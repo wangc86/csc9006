@@ -1,0 +1,58 @@
+The answer is TAO_EC_Per_Supplier_Filter_Builder.
+
+
+Here is a way to figure that out:
+
+In TAO_EC_Event_Channel_Base::create_strategies(),
+we see that at lines 87-88 the program would call
+this->factory_->create_supplier_filter_builder
+to construct an object of a supplier filter builder.
+
+The question then is: what is factory_ pointing to?
+Looking at the constructor of TAO_EC_Event_Channel_Base
+we see that factory_ would be initialized at
+the calling of the constructor (line 23).
+From the homework instruction we knew that
+TAO_EC_Event_Channel_Base is the base class of class
+TAO_EC_Event_Channel. So, looking at the constructor
+of TAO_EC_Event_Channel (starting at line 7 in file
+EC_Event_Channel.cpp), we see that the second argument
+of the constructor is used to define factory_ (line 11
+of the same file). Now, we should go back to our example
+folder and take a look at how that constructor is called.
+
+We look at the content of Service.cpp, which
+implements our example server. At line 14 we see
+statement TAO_EC_Default_Factory::init_svcs ();
+Looking up this function in the header file (or in
+TAO's documentation: https://www.dre.vanderbilt.edu/Doxygen/7.0.0/html/libtao-doc/rtevent/a06358.html)
+we see that it is a helpful function to register the
+default factory into the service configurator. 
+Further, at line 45 of the Service.cpp file in the
+example folder we also see that the program would
+construct an event channel with the second parameter
+of the constructor set to zero (i.e., nil).
+In the header file for TAO_EC_Event_Channel (file
+EC_Event_Channel.h) we see related comments, between
+lines 46 and 49. Looking back at the implementation
+of the TAO_EC_Event_Channel constructor, we shall
+see that factory_ is indeed pointed to an object
+of TAO_EC_Default_Factory. We are almost there.
+
+Finally, with all this information, following line 6
+in THIS file (i.e., first_trace.txt), we turn to look
+at TAO_EC_Default_Factory::create_supplier_filter_builder
+(lines 580-588 in EC_Default_Factory.cpp). The answer
+is either TAO_EC_Trivial_Supplier_Filter_Builder
+or TAO_EC_Per_Supplier_Filter_Builder. Do a quick
+search of variable supplier_filtering_, we see that
+in the same file, at lines 174 and 175, it is set to 1.
+Looking around within the body of this function, we see
+that it reads the setting in ec.conf, and in our example
+indeed we use the "per-supplier" strategy. There you go.
+We have found the answer. Mission accomplished.
+
+Another way to figure out our target class name is
+to insert several printf() statements between the
+lines and run the program to see where the code jumps.
+This could be an effective debugging strategy sometimes.
