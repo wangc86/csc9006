@@ -1,0 +1,28 @@
+We use the sigleton pattern to ensure that we will only create one
+single object for class Time_Client_i. We use the main thread to
+periodically trigger the operation of each children threads. The
+period for each child thread is set to 200 ms and 300 ms,
+respectively, to reserve ample time for the work to complete in
+each cycle. Each child thread will make 15 requests to the server.
+This setup allows us to observe multi-threaded program behavior:
+first of all, we may observe that the outputs interleave;
+occasionally, two threads may make their requests close in time
+with respect to each other, and thus the returned information of
+the # of requests may be identical; also, since one thread will
+finish all its 15 requests much earlier than the other, we may
+observe that whether or not we have correctly implemented the
+finishing logic so that the former thread will not incorrectly
+kill the server.
+
+Some notable things in our design:
+1. Use the POSIX timer (Homework 2);
+2. Use pthread (Homework 3);
+3. Use the ACE_DEBUG macro in $TAO_ROOT/orbsvcs/examples/RtEC/Simple
+   to print debug messages;
+4. Use mutex to ensure the client_ object is initialized only once;
+5. Use reference count to make sure we will never shutdown an object
+   while others are still working with it;
+6. The main thread will wait for a bit before creating the second
+   child thread, in order to prevent the heisenbug for singleton;
+7. Finally, notice that the server's implementation is not thread-safe,
+   because I did not protect the counter variable at the server.

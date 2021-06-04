@@ -1,0 +1,3781 @@
+cscope 15 $HOME/Downloads/ACE_wrappers/TAO/examples/Simple/csc9006hw5 -c               0000023480
+	@Time.idl
+
+2 
+interface
+ 
+	gTime
+
+
+8 long 
+current_time
+ ();
+
+11 
+oneway
+ void 
+shutdown
+ ();
+
+	@TimeC.cpp
+
+29 #include 
+	~"TimeC.h
+"
+
+30 #include 
+	~"tao/CDR.h
+"
+
+31 #include 
+	~"tao/Exception_Data.h
+"
+
+32 #include 
+	~"tao/Invocation_Adapter.h
+"
+
+33 #include 
+	~"tao/Object_T.h
+"
+
+34 #include 
+	~"cstring
+"
+
+36 #if !
+defined
+ (
+__ACE_INLINE__
+)
+
+37 #include 
+	~"TimeC.inl
+"
+
+42 
+TAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+
+46 
+Time_ptr
+
+
+47 
+	gTAO
+::
+Objref_Traits
+<
+Time
+>::
+	$duplicate
+ (
+
+48 
+Time_ptr
+ 
+p
+)
+
+50 return 
+Time
+::
+	`_duplicate
+ (
+p
+);
+
+51 
+	}
+}
+
+54 
+	gTAO
+::
+Objref_Traits
+<
+Time
+>::
+	$release
+ (
+
+55 
+Time_ptr
+ 
+p
+)
+
+57 ::
+CORBA
+::
+	`release
+ (
+p
+);
+
+58 
+	}
+}
+
+60 
+Time_ptr
+
+
+61 
+	gTAO
+::
+Objref_Traits
+<
+Time
+>::
+	$nil
+ ()
+
+63 return 
+Time
+::
+	`_nil
+ ();
+
+64 
+	}
+}
+
+66 ::
+CORBA
+::
+Boolean
+
+
+67 
+TAO
+::
+Objref_Traits
+<
+Time
+>::
+	$marshal
+ (
+
+68 const 
+Time_ptr
+ 
+p
+,
+
+69 
+TAO_OutputCDR
+ & 
+cdr
+)
+
+71 return ::
+CORBA
+::
+Object
+::
+	`marshal
+ (
+p
+, 
+cdr
+);
+
+72 
+	}
+}
+
+74 
+	gTAO_END_VERSIONED_NAMESPACE_DECL
+
+
+81 ::
+CORBA
+::
+Long
+
+
+82 
+Time
+::
+	$current_time
+ (
+
+85 if (!
+this
+->
+	`is_evaluated
+ ())
+
+87 ::
+CORBA
+::
+Object
+::
+	`tao_object_initialize
+ (
+this
+);
+
+90 
+TAO
+::
+Arg_Traits
+< ::
+CORBA
+::
+Long
+>::
+ret_val
+ 
+_tao_retval
+;
+
+92 
+TAO
+::
+Argument
+ *
+_the_tao_operation_signature
+ [] =
+
+94 
+std
+::
+	`addressof
+(
+_tao_retval
+)
+
+97 
+TAO
+::
+Invocation_Adapter
+ 
+	`_tao_call
+ (
+
+98 
+this
+,
+
+99 
+_the_tao_operation_signature
+,
+
+103 
+TAO
+::
+TAO_CO_NONE
+ | TAO::
+TAO_CO_THRU_POA_STRATEGY
+,
+
+104 
+TAO
+::
+TAO_TWOWAY_INVOCATION
+
+
+106 
+TAO
+::
+TAO_SYNCHRONOUS_INVOCATION
+,
+
+107 
+false
+
+
+110 
+_tao_call
+.
+	`invoke
+ (
+nullptr
+, 0);
+
+112 return 
+_tao_retval
+.
+	`retn
+ ();
+
+113 
+	}
+}
+
+119 
+	gTime
+::
+	$shutdown
+ (
+
+122 if (!
+this
+->
+	`is_evaluated
+ ())
+
+124 ::
+CORBA
+::
+Object
+::
+	`tao_object_initialize
+ (
+this
+);
+
+127 
+TAO
+::
+Arg_Traits
+< void>::
+ret_val
+ 
+_tao_retval
+;
+
+129 
+TAO
+::
+Argument
+ *
+_the_tao_operation_signature
+ [] =
+
+131 
+std
+::
+	`addressof
+(
+_tao_retval
+)
+
+134 
+TAO
+::
+Invocation_Adapter
+ 
+	`_tao_call
+ (
+
+135 
+this
+,
+
+136 
+_the_tao_operation_signature
+,
+
+140 
+TAO
+::
+TAO_CO_NONE
+ | TAO::
+TAO_CO_THRU_POA_STRATEGY
+,
+
+141 
+TAO
+::
+TAO_ONEWAY_INVOCATION
+,
+
+142 
+TAO
+::
+TAO_SYNCHRONOUS_INVOCATION
+,
+
+143 
+false
+
+
+146 
+_tao_call
+.
+	`invoke
+ (
+nullptr
+, 0);
+
+147 
+	}
+}
+
+149 
+	gTime
+::
+	$Time
+ ()
+
+151 
+	}
+}
+
+153 
+Time
+::~
+	$Time
+ ()
+
+155 
+	}
+}
+
+157 
+Time_ptr
+
+
+158 
+Time
+::
+	$_narrow
+ (
+
+159 ::
+CORBA
+::
+Object_ptr
+ 
+_tao_objref
+)
+
+161 return 
+TAO
+::
+Narrow_Utils
+<
+Time
+>::
+	`narrow
+ (
+_tao_objref
+, "IDL:Time:1.0");
+
+162 
+	}
+}
+
+164 
+Time_ptr
+
+
+165 
+	gTime
+::
+	$_unchecked_narrow
+ (
+
+166 ::
+CORBA
+::
+Object_ptr
+ 
+_tao_objref
+)
+
+168 return 
+TAO
+::
+Narrow_Utils
+<
+Time
+>::
+	`unchecked_narrow
+ (
+_tao_objref
+);
+
+169 
+	}
+}
+
+171 
+Time_ptr
+
+
+172 
+	gTime
+::
+	$_nil
+ ()
+
+174 return 
+nullptr
+;
+
+175 
+	}
+}
+
+177 
+Time_ptr
+
+
+178 
+	gTime
+::
+	$_duplicate
+ (
+Time_ptr
+ 
+obj
+)
+
+180 if (! ::
+CORBA
+::
+	`is_nil
+ (
+obj
+))
+
+182 
+obj
+->
+	`_add_ref
+ ();
+
+184 return 
+obj
+;
+
+185 
+	}
+}
+
+188 
+	gTime
+::
+	$_tao_release
+ (
+Time_ptr
+ 
+obj
+)
+
+190 ::
+CORBA
+::
+	`release
+ (
+obj
+);
+
+191 
+	}
+}
+
+193 ::
+CORBA
+::
+Boolean
+
+
+194 
+Time
+::
+	$_is_a
+ (const char *
+value
+)
+
+197 
+std
+::
+	`strcmp
+ (
+value
+, "IDL:Time:1.0") == 0 ||
+
+198 
+std
+::
+	`strcmp
+ (
+value
+, "IDL:omg.org/CORBA/Object:1.0") == 0
+
+201 return 
+true
+;
+
+205 return 
+this
+->::
+CORBA
+::
+Object
+::
+	`_is_a
+ (
+value
+);
+
+207 
+	}
+}
+
+209 const char* 
+	gTime
+::
+	$_interface_repository_id
+ () const
+
+212 
+	}
+}
+
+214 ::
+CORBA
+::
+Boolean
+
+
+215 
+Time
+::
+	$marshal
+ (
+TAO_OutputCDR
+ &
+cdr
+)
+
+217 return (
+cdr
+ << 
+this
+);
+
+218 
+	}
+}
+
+223 
+	gTAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+
+225 ::
+CORBA
+::
+Boolean
+ 
+operator
+<< (
+
+226 
+TAO_OutputCDR
+ &
+strm
+,
+
+227 const 
+Time_ptr
+ 
+	g_tao_objref
+)
+
+229 ::
+CORBA
+::
+Object_ptr
+ 
+_tao_corba_obj
+ = 
+_tao_objref
+;
+
+230 return (
+	gstrm
+ << 
+	g_tao_corba_obj
+);
+
+233 ::
+CORBA
+::
+Boolean
+ 
+operator
+>> (
+
+234 
+TAO_InputCDR
+ &
+strm
+,
+
+235 
+	gTime_ptr
+ &
+	g_tao_objref
+)
+
+237 ::
+CORBA
+::
+Object_var
+ 
+obj
+;
+
+239 if (!(
+	gstrm
+ >> 
+	gobj
+.
+inout
+ ()))
+
+241 return 
+	gfalse
+;
+
+245 
+	g_tao_objref
+ = 
+TAO
+::
+Narrow_Utils
+< ::
+Time
+>::
+unchecked_narrow
+ (
+obj
+.
+in
+ ());
+
+247 return 
+	gtrue
+;
+
+250 
+	gTAO_END_VERSIONED_NAMESPACE_DECL
+
+
+	@TimeC.h
+
+28 #ifndef 
+_TAO_IDL_TIMEC_WXEOU8_H_
+
+
+29 #define 
+	#_TAO_IDL_TIMEC_WXEOU8_H_
+
+
+	)
+
+36 #if !
+defined
+ (
+ACE_LACKS_PRAGMA_ONCE
+)
+
+37 #pragma 
+once
+
+
+41 #include 
+	~"tao/ORB.h
+"
+
+42 #include 
+	~"tao/SystemException.h
+"
+
+43 #include 
+	~"tao/Basic_Types.h
+"
+
+44 #include 
+	~"tao/ORB_Constants.h
+"
+
+45 #include 
+	~"tao/Object.h
+"
+
+46 #include 
+	~"tao/Objref_VarOut_T.h
+"
+
+47 #include 
+	~"tao/Arg_Traits_T.h
+"
+
+48 #include 
+	~"tao/Basic_Arguments.h
+"
+
+49 #include 
+	~"tao/Special_Basic_Arguments.h
+"
+
+50 #include 
+	~"tao/Any_Insert_Policy_T.h
+"
+
+51 #include 
+	~"tao/Fixed_Size_Argument_T.h
+"
+
+52 #include 
+	~"tao/Var_Size_Argument_T.h
+"
+
+53 #include 
+	~"tao/Object_Argument_T.h
+"
+
+57 #if 
+TAO_MAJOR_VERSION
+ != 3 || 
+TAO_MINOR_VERSION
+ != 0 || 
+TAO_MICRO_VERSION
+ != 0
+
+58 #error 
+This
+ 
+file
+ 
+should
+ 
+be
+ 
+regenerated
+ 
+with
+ 
+TAO_IDL
+
+
+63 
+TAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+
+67 
+namespace
+ 
+	gTAO
+
+
+69 
+	gtemplate
+<
+typename
+ 
+	gT
+> 
+class
+ 
+	gNarrow_Utils
+;
+
+71 
+	gTAO_END_VERSIONED_NAMESPACE_DECL
+
+
+78 #if !
+defined
+ (
+_TIME__VAR_OUT_CH_
+)
+
+79 #define 
+	#_TIME__VAR_OUT_CH_
+
+
+	)
+
+81 
+class
+ 
+	gTime
+;
+
+82 typedef 
+Time
+ *
+	tTime_ptr
+;
+
+83 typedef 
+	gTAO_Objref_Var_T
+<
+	tTime
+> 
+	tTime_var
+;
+
+84 typedef 
+	gTAO_Objref_Out_T
+<
+	tTime
+> 
+	tTime_out
+;
+
+92 class 
+	cTime
+
+
+93 : 
+public
+ 
+virtual
+ ::
+CORBA
+::
+Object
+
+
+95 
+public
+:
+
+96 
+friend
+ 
+class
+ 
+TAO
+::
+Narrow_Utils
+<
+Time
+>;
+
+101 typedef 
+Time_ptr
+ 
+	t_ptr_type
+;
+
+102 typedef 
+Time_var
+ 
+	t_var_type
+;
+
+103 typedef 
+Time_out
+ 
+	t_out_type
+;
+
+106 static 
+Time_ptr
+ 
+_duplicate
+ (Time_ptr 
+obj
+);
+
+108 static void 
+_tao_release
+ (
+Time_ptr
+ 
+obj
+);
+
+110 static 
+Time_ptr
+ 
+_narrow
+ (::
+CORBA
+::
+Object_ptr
+ 
+obj
+);
+
+111 static 
+Time_ptr
+ 
+_unchecked_narrow
+ (::
+CORBA
+::
+Object_ptr
+ 
+obj
+);
+
+112 static 
+Time_ptr
+ 
+_nil
+ ();
+
+114 
+	mvirtual
+ ::
+CORBA
+::
+Long
+ 
+current_time
+ (
+
+117 
+virtual
+ void 
+shutdown
+ (
+
+123 
+	mvirtual
+ ::
+CORBA
+::
+Boolean
+ 
+_is_a
+ (const char *
+type_id
+);
+
+124 
+virtual
+ const char* 
+	$_interface_repository_id
+ () const;
+
+125 
+virtual
+ ::
+CORBA
+::
+Boolean
+ 
+	`marshal
+ (
+TAO_OutputCDR
+ &
+cdr
+);
+
+127 
+protected
+:
+
+129 
+	`Time
+ ();
+
+132 
+	`Time
+ (
+
+133 ::
+IOP
+::
+IOR
+ *
+ior
+,
+
+134 
+TAO_ORB_Core
+ *
+orb_core
+);
+
+137 
+	`Time
+ (
+
+138 
+TAO_Stub
+ *
+objref
+,
+
+139 ::
+CORBA
+::
+Boolean
+ 
+_tao_collocated
+ = 
+false
+,
+
+140 
+TAO_Abstract_ServantBase
+ *
+servant
+ = 
+nullptr
+,
+
+141 
+TAO_ORB_Core
+ *
+orb_core
+ = 
+nullptr
+);
+
+143 
+virtual
+ ~
+	`Time
+ ();
+
+145 
+private
+:
+
+147 
+	`Time
+ (const 
+Time
+ &) = 
+delete
+;
+
+148 
+	`Time
+ (
+Time
+ &&) = 
+delete
+;
+
+149 
+Time
+ &
+operator
+= (const Time &) = 
+delete
+;
+
+150 
+Time
+ &
+operator
+= (Time &&) = 
+delete
+;
+
+156 
+TAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+
+160 
+namespace
+ 
+TAO
+
+
+166 #if !
+	`defined
+ (
+_TIME__ARG_TRAITS_
+)
+
+167 #define 
+	#_TIME__ARG_TRAITS_
+
+
+	)
+
+169 
+template
+<>
+
+170 
+class
+ 
+Arg_Traits
+< ::
+Time
+>
+
+171 : 
+public
+
+
+172 
+Object_Arg_Traits_T
+<
+
+173 ::
+Time_ptr
+,
+
+174 ::
+Time_var
+,
+
+175 ::
+Time_out
+,
+
+176 
+TAO
+::
+Objref_Traits
+<
+Time
+>,
+
+177 
+TAO
+::
+Any_Insert_Policy_Noop
+
+
+183 
+	}
+}
+
+185 
+TAO_END_VERSIONED_NAMESPACE_DECL
+
+
+192 
+TAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+
+195 
+namespace
+ 
+	gTAO
+
+
+198 #if !
+defined
+ (
+_TIME__TRAITS_
+)
+
+199 #define 
+	#_TIME__TRAITS_
+
+
+	)
+
+201 
+	gtemplate
+<>
+
+202 struct 
+	gObjref_Traits
+< ::
+Time
+>
+
+204 static ::
+Time_ptr
+ 
+duplicate
+ (
+
+205 ::
+Time_ptr
+ 
+p
+);
+
+206 static void 
+release
+ (
+
+207 ::
+Time_ptr
+ 
+p
+);
+
+208 static ::
+Time_ptr
+ 
+nil
+ ();
+
+209 static ::
+CORBA
+::
+Boolean
+ 
+marshal
+ (
+
+210 const ::
+Time_ptr
+ 
+p
+,
+
+211 
+TAO_OutputCDR
+ & 
+cdr
+);
+
+216 
+TAO_END_VERSIONED_NAMESPACE_DECL
+
+
+223 
+	gTAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+
+225 ::
+CORBA
+::
+Boolean
+ 
+operator
+<< (
+TAO_OutputCDR
+ &, const 
+	gTime_ptr
+ );
+
+226 ::
+CORBA
+::
+Boolean
+ 
+operator
+>> (
+TAO_InputCDR
+ &, 
+	gTime_ptr
+ &);
+
+228 
+	gTAO_END_VERSIONED_NAMESPACE_DECL
+
+
+234 #if 
+defined
+ (
+__ACE_INLINE__
+)
+
+235 #include 
+	~"TimeC.inl
+"
+
+	@TimeC.inl
+
+29 
+ACE_INLINE
+
+
+30 
+	gTime
+::
+	$Time
+ (
+
+31 
+TAO_Stub
+ *
+objref
+,
+
+32 ::
+CORBA
+::
+Boolean
+ 
+_tao_collocated
+,
+
+33 
+TAO_Abstract_ServantBase
+ *
+servant
+,
+
+34 
+TAO_ORB_Core
+ *
+oc
+)
+
+35 : ::
+CORBA
+::
+	$Object
+ (
+objref
+, 
+_tao_collocated
+, 
+servant
+, 
+oc
+)
+
+37 
+	}
+}
+
+39 
+ACE_INLINE
+
+
+40 
+	gTime
+::
+	$Time
+ (
+
+41 ::
+IOP
+::
+IOR
+ *
+ior
+,
+
+42 
+TAO_ORB_Core
+ *
+oc
+)
+
+43 : ::
+CORBA
+::
+	$Object
+ (
+ior
+, 
+oc
+)
+
+45 
+	}
+}
+
+	@TimeS.cpp
+
+29 #ifndef 
+_TAO_IDL_TIMES_WXEOU8_CPP_
+
+
+30 #define 
+	#_TAO_IDL_TIMES_WXEOU8_CPP_
+
+
+	)
+
+33 #include 
+	~"TimeS.h
+"
+
+34 #include 
+	~"tao/PortableServer/Operation_Table_Perfect_Hash.h
+"
+
+35 #include 
+	~"tao/PortableServer/Upcall_Command.h
+"
+
+36 #include 
+	~"tao/PortableServer/Upcall_Wrapper.h
+"
+
+37 #include 
+	~"tao/TAO_Server_Request.h
+"
+
+38 #include 
+	~"tao/ORB_Core.h
+"
+
+39 #include 
+	~"tao/Profile.h
+"
+
+40 #include 
+	~"tao/Stub.h
+"
+
+41 #include 
+	~"tao/IFR_Client_Adapter.h
+"
+
+42 #include 
+	~"tao/Object_T.h
+"
+
+43 #include 
+	~"tao/AnyTypeCode/TypeCode.h
+"
+
+44 #include 
+	~"tao/AnyTypeCode/DynamicC.h
+"
+
+45 #include 
+	~"tao/CDR.h
+"
+
+46 #include 
+	~"tao/operation_details.h
+"
+
+47 #include 
+	~"tao/PortableInterceptor.h
+"
+
+48 #include 
+	~"ace/Dynamic_Service.h
+"
+
+49 #include 
+	~"ace/Malloc_Allocator.h
+"
+
+50 #include 
+	~"cstring
+"
+
+55 class 
+	cTAO_Time_Perfect_Hash_OpTable
+
+
+56 : 
+public
+ 
+TAO_Perfect_Hash_OpTable
+
+
+58 
+private
+:
+
+59 unsigned int 
+hash
+ (const char *
+str
+, unsigned int 
+len
+);
+
+61 
+	mpublic
+:
+
+62 const 
+TAO_operation_db_entry
+ * 
+lookup
+ (const char *
+str
+, unsigned int 
+len
+);
+
+69 
+	gTAO_Time_Perfect_Hash_OpTable
+::
+	$hash
+ (const char *
+str
+, unsigned int 
+len
+)
+
+71 static const unsigned char 
+asso_values
+[] =
+
+87 return 
+len
+ + 
+asso_values
+[
+static_cast
+<int>(
+str
+[len - 1])] + asso_values[static_cast<int>(str[0])];
+
+88 
+	}
+}
+
+90 const 
+TAO_operation_db_entry
+ *
+
+91 
+	gTAO_Time_Perfect_Hash_OpTable
+::
+	$lookup
+ (const char *
+str
+, unsigned int 
+len
+)
+
+95 
+TOTAL_KEYWORDS
+ = 7,
+
+96 
+MIN_WORD_LENGTH
+ = 5,
+
+97 
+MAX_WORD_LENGTH
+ = 14,
+
+98 
+MIN_HASH_VALUE
+ = 5,
+
+99 
+MAX_HASH_VALUE
+ = 17,
+
+100 
+HASH_VALUE_RANGE
+ = 13,
+
+101 
+DUPLICATES
+ = 0,
+
+102 
+WORDLIST_SIZE
+ = 12
+
+105 static const 
+TAO_operation_db_entry
+ 
+wordlist
+[] =
+
+108 {"_is_a", 
+std
+::
+	`addressof
+(
+TAO_ServantBase
+::
+_is_a_thru_poa_skel
+), 
+nullptr
+},
+
+110 {"shutdown", 
+std
+::
+	`addressof
+(
+POA_Time
+::
+shutdown_skel
+), 
+nullptr
+},
+
+112 {"_component", 
+std
+::
+	`addressof
+(
+TAO_ServantBase
+::
+_component_thru_poa_skel
+), 
+nullptr
+},
+
+114 {"_non_existent", 
+std
+::
+	`addressof
+(
+TAO_ServantBase
+::
+_non_existent_thru_poa_skel
+), 
+nullptr
+},
+
+115 {"_repository_id", 
+std
+::
+	`addressof
+(
+TAO_ServantBase
+::
+_repository_id_thru_poa_skel
+), 
+nullptr
+},
+
+116 {"_interface", 
+std
+::
+	`addressof
+(
+TAO_ServantBase
+::
+_interface_skel
+), 
+nullptr
+},
+
+118 {"current_time", 
+std
+::
+	`addressof
+(
+POA_Time
+::
+current_time_skel
+), 
+nullptr
+},
+
+121 if (
+len
+ <= 
+MAX_WORD_LENGTH
+ && len >= 
+MIN_WORD_LENGTH
+)
+
+123 unsigned int 
+key
+ = 
+	`hash
+ (
+str
+, 
+len
+);
+
+125 if (
+key
+ <= 
+MAX_HASH_VALUE
+ && key >= 
+MIN_HASH_VALUE
+)
+
+127 const char *
+s
+ = 
+wordlist
+[
+key
+].
+opname
+;
+
+129 if (*
+str
+ == *
+s
+ && !
+ACE_OS
+::
+	`strncmp
+ (str + 1, s + 1, 
+len
+ - 1))
+
+130 return &
+wordlist
+[
+key
+];
+
+134 
+	}
+}
+
+136 static 
+TAO_Time_Perfect_Hash_OpTable
+ 
+	gtao_Time_optable
+;
+
+141 
+	gPOA_Time
+::
+	$POA_Time
+ ()
+
+142 : 
+	$TAO_ServantBase
+ ()
+
+144 
+this
+->
+optable_
+ = 
+std
+::
+	`addressof
+(
+tao_Time_optable
+);
+
+145 
+	}
+}
+
+147 
+	gPOA_Time
+::
+	$POA_Time
+ (const 
+POA_Time
+& 
+rhs
+)
+
+148 : 
+	`TAO_Abstract_ServantBase
+ (
+rhs
+),
+
+149 
+	$TAO_ServantBase
+ (
+rhs
+)
+
+151 
+	}
+}
+
+153 
+	gPOA_Time
+::~
+	$POA_Time
+ ()
+
+155 
+	}
+}
+
+161 class 
+	ccurrent_time_Time
+
+
+162 : 
+public
+ 
+TAO
+::
+Upcall_Command
+
+
+164 
+public
+:
+
+165 
+inline
+ 
+	$current_time_Time
+ (
+
+166 
+POA_Time
+ * 
+servant
+,
+
+167 
+TAO_Operation_Details
+ const * 
+operation_details
+,
+
+168 
+TAO
+::
+Argument
+ * const 
+args
+[])
+
+169 : 
+	`servant_
+ (
+servant
+)
+
+170 , 
+	`operation_details_
+ (
+operation_details
+)
+
+171 , 
+	$args_
+ (
+args
+)
+
+175 
+virtual
+ void 
+	$execute
+ ()
+
+177 
+TAO
+::
+SArg_Traits
+< ::
+CORBA
+::
+Long
+>::
+ret_arg_type
+ 
+retval
+ =
+
+178 
+TAO
+::
+Portable_Server
+::
+get_ret_arg
+< ::
+CORBA
+::
+Long
+> (
+
+179 
+this
+->
+operation_details_
+,
+
+180 
+this
+->
+args_
+);
+
+182 
+retval
+ =
+
+183 
+this
+->
+servant_
+->
+	`current_time
+ ();
+
+184 
+	}
+}
+
+186 
+	gprivate
+:
+
+187 
+POA_Time
+ * const 
+servant_
+;
+
+188 
+TAO_Operation_Details
+ const * const 
+	goperation_details_
+;
+
+189 
+	gTAO
+::
+Argument
+ * const * const 
+args_
+;
+
+195 void 
+	gPOA_Time
+::
+current_time_skel
+ (
+
+196 
+TAO_ServerRequest
+ & 
+server_request
+,
+
+197 
+TAO
+::
+Portable_Server
+::
+Servant_Upcall
+ *
+TAO_INTERCEPTOR
+ (
+servant_upcall
+),
+
+198 
+TAO_ServantBase
+ *
+servant
+)
+
+199 {
+	gTAO
+::
+SArg_Traits
+< ::
+CORBA
+::
+Long
+>::
+ret_val
+ 
+retval
+;
+
+201 
+	gTAO
+::
+Argument
+ * const 
+args
+[] =
+
+203 
+std
+::
+addressof
+(
+retval
+)
+
+206 
+POA_Time
+ * const 
+	gimpl
+ =
+
+207 
+dynamic_cast
+<
+POA_Time
+ *> (
+servant
+);
+
+209 if (!
+	gimpl
+)
+
+211 
+	gthrow
+ ::
+CORBA
+::
+INTERNAL
+ ();
+
+214 
+current_time_Time
+ 
+command
+ (
+
+215 
+impl
+,
+
+216 
+server_request
+.
+operation_details
+ (),
+
+217 
+args
+);
+
+219 
+	gTAO
+::
+Upcall_Wrapper
+ 
+upcall_wrapper
+;
+
+220 
+	gupcall_wrapper
+.
+upcall
+ (
+server_request
+
+
+221 , 
+args
+
+
+223 , 
+command
+
+
+224 #if 
+TAO_HAS_INTERCEPTORS
+ == 1
+
+225 , 
+servant_upcall
+
+
+226 , 
+nullptr
+
+
+237 class 
+	cshutdown_Time
+
+
+238 : 
+public
+ 
+TAO
+::
+Upcall_Command
+
+
+240 
+public
+:
+
+241 
+inline
+ 
+	$shutdown_Time
+ (
+
+242 
+POA_Time
+ * 
+servant
+)
+
+243 : 
+	$servant_
+ (
+servant
+)
+
+247 
+virtual
+ void 
+	$execute
+ ()
+
+249 
+this
+->
+servant_
+->
+	`shutdown
+ ();
+
+250 
+	}
+}
+
+252 
+	gprivate
+:
+
+253 
+POA_Time
+ * const 
+servant_
+;
+
+259 void 
+	gPOA_Time
+::
+shutdown_skel
+ (
+
+260 
+TAO_ServerRequest
+ & 
+server_request
+,
+
+261 
+TAO
+::
+Portable_Server
+::
+Servant_Upcall
+ *
+TAO_INTERCEPTOR
+ (
+servant_upcall
+),
+
+262 
+TAO_ServantBase
+ *
+servant
+)
+
+263 {
+	gTAO
+::
+SArg_Traits
+< void>::
+ret_val
+ 
+retval
+;
+
+265 
+	gTAO
+::
+Argument
+ * const 
+args
+[] =
+
+267 
+std
+::
+addressof
+(
+retval
+)
+
+270 
+POA_Time
+ * const 
+	gimpl
+ =
+
+271 
+dynamic_cast
+<
+POA_Time
+ *> (
+servant
+);
+
+273 if (!
+	gimpl
+)
+
+275 
+	gthrow
+ ::
+CORBA
+::
+INTERNAL
+ ();
+
+278 
+shutdown_Time
+ 
+command
+ (
+
+279 
+impl
+);
+
+281 
+	gTAO
+::
+Upcall_Wrapper
+ 
+upcall_wrapper
+;
+
+282 
+	gupcall_wrapper
+.
+upcall
+ (
+server_request
+
+
+283 , 
+args
+
+
+285 , 
+command
+
+
+286 #if 
+TAO_HAS_INTERCEPTORS
+ == 1
+
+287 , 
+servant_upcall
+
+
+288 , 
+nullptr
+
+
+301 ::
+CORBA
+::
+Boolean
+ 
+POA_Time
+::
+	$_is_a
+ (const char* 
+value
+)
+
+305 
+std
+::
+	`strcmp
+ (
+value
+, "IDL:Time:1.0") == 0 ||
+
+306 
+std
+::
+	`strcmp
+ (
+value
+, "IDL:omg.org/CORBA/Object:1.0") == 0
+
+308 
+	}
+}
+
+310 const char* 
+	gPOA_Time
+::
+	$_interface_repository_id
+ () const
+
+313 
+	}
+}
+
+318 void 
+	gPOA_Time
+::
+	$_dispatch
+ (
+
+319 
+TAO_ServerRequest
+ & 
+req
+,
+
+320 
+TAO
+::
+Portable_Server
+::
+Servant_Upcall
+* 
+servant_upcall
+)
+
+322 
+this
+->
+	`synchronous_upcall_dispatch
+ (
+req
+, 
+servant_upcall
+, this);
+
+323 
+	}
+}
+
+328 
+Time
+ *
+
+329 
+	gPOA_Time
+::
+	$_this
+ ()
+
+331 
+TAO_Stub
+ *
+stub
+ = 
+this
+->
+	`_create_stub
+ ();
+
+333 
+TAO_Stub_Auto_Ptr
+ 
+	`safe_stub
+ (
+stub
+);
+
+334 ::
+CORBA
+::
+Object_ptr
+ 
+tmp
+ {};
+
+336 ::
+CORBA
+::
+Boolean
+ const 
+_tao_opt_colloc
+ =
+
+337 
+stub
+->
+	`servant_orb_var
+ ()->
+	`orb_core
+ ()->
+	`optimize_collocation_objects
+ ();
+
+339 
+	`ACE_NEW_RETURN
+ (
+
+340 
+tmp
+,
+
+341 ::
+CORBA
+::
+	`Object
+ (
+stub
+, 
+_tao_opt_colloc
+, 
+this
+),
+
+342 
+nullptr
+);
+
+344 ::
+CORBA
+::
+Object_var
+ 
+obj
+ = 
+tmp
+;
+
+345 (void) 
+safe_stub
+.
+	`release
+ ();
+
+347 return 
+TAO
+::
+Narrow_Utils
+< ::
+Time
+>::
+	`unchecked_narrow
+ (
+obj
+.
+	`in
+ ());
+
+348 
+	}
+}
+
+	@TimeS.h
+
+28 #ifndef 
+_TAO_IDL_TIMES_WXEOU8_H_
+
+
+29 #define 
+	#_TAO_IDL_TIMES_WXEOU8_H_
+
+
+	)
+
+33 #include 
+	~"TimeC.h
+"
+
+34 #include 
+	~"tao/PortableServer/Basic_SArguments.h
+"
+
+35 #include 
+	~"tao/PortableServer/Special_Basic_SArguments.h
+"
+
+36 #include 
+	~"tao/PortableServer/Fixed_Size_SArgument_T.h
+"
+
+37 #include 
+	~"tao/PortableServer/Var_Size_SArgument_T.h
+"
+
+38 #include 
+	~"tao/PortableServer/Object_SArg_Traits.h
+"
+
+39 #include 
+	~"tao/PortableServer/UB_String_SArguments.h
+"
+
+40 #include 
+	~"tao/PortableServer/get_arg.h
+"
+
+41 #include 
+	~"tao/Special_Basic_Arguments.h
+"
+
+42 #include 
+	~"tao/UB_String_Arguments.h
+"
+
+44 #if !
+defined
+ (
+ACE_LACKS_PRAGMA_ONCE
+)
+
+45 #pragma 
+once
+
+
+48 #include 
+	~"tao/PortableServer/PortableServer.h
+"
+
+49 #include 
+	~"tao/PortableServer/Servant_Base.h
+"
+
+54 
+TAO_BEGIN_VERSIONED_NAMESPACE_DECL
+
+
+58 
+namespace
+ 
+	gTAO
+
+
+64 #if !
+defined
+ (
+_TIME__SARG_TRAITS_
+)
+
+65 #define 
+	#_TIME__SARG_TRAITS_
+
+
+	)
+
+67 
+	gtemplate
+<>
+
+68 
+class
+ 
+	gSArg_Traits
+< ::
+Time
+>
+
+69 : 
+public
+
+
+70 
+Object_SArg_Traits_T
+<
+
+71 ::
+Time_ptr
+,
+
+72 ::
+Time_var
+,
+
+73 ::
+Time_out
+,
+
+74 
+	gTAO
+::
+Any_Insert_Policy_Noop
+
+
+82 
+TAO_END_VERSIONED_NAMESPACE_DECL
+
+
+89 
+class
+ 
+	gPOA_Time
+;
+
+90 typedef 
+POA_Time
+ *
+	tPOA_Time_ptr
+;
+
+92 class 
+	cPOA_Time
+
+
+93 : 
+public
+ 
+virtual
+ 
+PortableServer
+::
+ServantBase
+
+
+95 
+protected
+:
+
+96 
+POA_Time
+ ();
+
+98 
+	mpublic
+:
+
+100 typedef ::
+Time
+ 
+	t_stub_type
+;
+
+101 typedef ::
+Time_ptr
+ 
+	t_stub_ptr_type
+;
+
+102 typedef ::
+Time_var
+ 
+	t_stub_var_type
+;
+
+104 
+POA_Time
+ (const POA_Time& 
+rhs
+);
+
+105 
+	mvirtual
+ ~
+POA_Time
+ ();
+
+107 
+	mvirtual
+ ::
+CORBA
+::
+Boolean
+ 
+_is_a
+ (const char* 
+logical_type_id
+);
+
+109 
+virtual
+ void 
+_dispatch
+ (
+
+110 
+TAO_ServerRequest
+ & 
+req
+,
+
+111 
+TAO
+::
+Portable_Server
+::
+Servant_Upcall
+ *
+servant_upcall
+);
+
+113 ::
+Time
+ *
+_this
+ ();
+
+115 
+virtual
+ const char* 
+	$_interface_repository_id
+ () const;
+
+120 
+virtual
+ ::
+CORBA
+::
+Long
+ 
+	`current_time
+ (
+
+123 static void 
+	`current_time_skel
+ (
+
+124 
+TAO_ServerRequest
+ &
+server_request
+,
+
+125 
+TAO
+::
+Portable_Server
+::
+Servant_Upcall
+ *
+servant_upcall
+,
+
+126 
+TAO_ServantBase
+ *
+servant
+);
+
+131 
+virtual
+ void 
+	`shutdown
+ (
+
+134 static void 
+	`shutdown_skel
+ (
+
+135 
+TAO_ServerRequest
+ &
+server_request
+,
+
+136 
+TAO
+::
+Portable_Server
+::
+Servant_Upcall
+ *
+servant_upcall
+,
+
+137 
+TAO_ServantBase
+ *
+servant
+);
+
+	@Time_Client_i.cpp
+
+1 #include 
+	~"Time_Client_i.h
+"
+
+2 #include 
+	~"ace/OS_NS_time.h
+"
+
+7 
+	gTime_Client_i
+::
+	$Time_Client_i
+ (void)
+
+10 
+	}
+}
+
+13 
+Time_Client_i
+::~
+	$Time_Client_i
+ (void)
+
+16 
+	}
+}
+
+19 
+Time_Client_i
+::
+	$run
+ (const char *
+name
+,
+
+20 int 
+argc
+,
+
+21 
+ACE_TCHAR
+ *
+argv
+[])
+
+24 if (
+client_
+.
+	`init
+ (
+name
+, 
+argc
+, 
+argv
+) == -1)
+
+27 
+try
+
+
+32 #if 
+	`defined
+ (
+HPUX
+)
+
+33 
+CORBA
+::
+Double
+ 
+padding
+ = 0.0;
+
+35 
+CORBA
+::
+Long
+ 
+padding
+ = 0;
+
+37 
+time_t
+ 
+timedate
+;
+
+39 
+	`ACE_UNUSED_ARG
+ (
+padding
+);
+
+42 
+timedate
+ = 
+static_cast
+ <
+time_t
+> (
+client_
+->
+	`current_time
+ ());
+
+47 
+ACE_TCHAR
+ 
+ascii_timedate
+[64] = 
+	`ACE_TEXT
+ ("");
+
+49 
+ACE_OS
+::
+	`ctime_r
+ (&
+timedate
+, 
+ascii_timedate
+, 64);
+
+51 
+	`ACE_DEBUG
+ ((
+LM_DEBUG
+,
+
+52 
+	`ACE_TEXT
+ ("string time is %s\n"),
+
+53 
+ascii_timedate
+));
+
+55 if (
+client_
+.
+	`do_shutdown
+ () == 1)
+
+56 
+client_
+->
+	`shutdown
+ ();
+
+58 
+	`catch
+ (const 
+CORBA
+::
+Exception
+& 
+ex
+)
+
+60 
+ex
+.
+	`_tao_print_exception
+ ("\tException");
+
+65 
+	}
+}
+
+	@Time_Client_i.h
+
+14 #ifndef 
+TIME_CLIENT_I_H
+
+
+15 #define 
+	#TIME_CLIENT_I_H
+
+
+	)
+
+17 #include 
+	~"../Simple_util.h
+"
+
+18 #include 
+	~"TimeC.h
+"
+
+28 class 
+	cTime_Client_i
+
+
+30 
+	mpublic
+:
+
+32 
+Time_Client_i
+ (void);
+
+35 ~
+Time_Client_i
+ (void);
+
+38 int 
+run
+ (const char *, int, 
+ACE_TCHAR
+**);
+
+40 
+	mprivate
+:
+
+42 
+Client
+<
+Time
+> 
+client_
+;
+
+	@Time_i.cpp
+
+1 #include 
+	~"Time_i.h
+"
+
+2 #include 
+	~"ace/OS_NS_time.h
+"
+
+5 
+	gTime_i
+::
+	$Time_i
+ (void)
+
+7 
+	}
+}
+
+10 
+Time_i
+::~
+	$Time_i
+ (void)
+
+12 
+	}
+}
+
+16 
+Time_i
+::
+	$orb
+ (
+CORBA
+::
+ORB_ptr
+ 
+o
+)
+
+18 
+this
+->
+orb_
+ = 
+CORBA
+::
+ORB
+::
+	`_duplicate
+ (
+o
+);
+
+19 
+	}
+}
+
+22 
+	gCORBA
+::
+Long
+
+
+23 
+Time_i
+::
+	$current_time
+ (void)
+
+25 return 
+CORBA
+::
+	`Long
+ (
+ACE_OS
+::
+	`time
+ (0));
+
+26 
+	}
+}
+
+30 
+	gTime_i
+::
+	$shutdown
+ (void)
+
+32 
+	`ACE_DEBUG
+ ((
+LM_DEBUG
+,
+
+33 
+	`ACE_TEXT
+ ("Time_i is shutting down\n")));
+
+36 
+this
+->
+orb_
+->
+	`shutdown
+ ();
+
+37 
+	}
+}
+
+	@Time_i.h
+
+14 #ifndef 
+TIME_I_H
+
+
+15 #define 
+	#TIME_I_H
+
+
+	)
+
+17 #include 
+	~"TimeS.h
+"
+
+28 class 
+	cTime_i
+: 
+public
+ 
+POA_Time
+
+
+30 
+public
+:
+
+32 
+Time_i
+ (void);
+
+35 
+	mvirtual
+ ~
+Time_i
+ (void);
+
+38 
+virtual
+ 
+	mCORBA
+::
+Long
+ 
+current_time
+ (void);
+
+41 
+virtual
+ void 
+shutdown
+ (void);
+
+44 void 
+orb
+ (
+CORBA
+::
+ORB_ptr
+ 
+o
+);
+
+46 
+	mprivate
+:
+
+48 
+CORBA
+::
+ORB_var
+ 
+orb_
+;
+
+50 void 
+	moperator
+= (const 
+Time_i
+ &);
+
+	@client.cpp
+
+1 #include 
+	~"Time_Client_i.h
+"
+
+6 
+	$ACE_TMAIN
+(int 
+argc
+, 
+ACE_TCHAR
+ *
+argv
+[])
+
+8 
+Time_Client_i
+ 
+client
+;
+
+10 
+	`ACE_DEBUG
+ ((
+LM_DEBUG
+,
+
+11 
+	`ACE_TEXT
+ ("\n\tTime and date client\n\n")));
+
+13 if (
+client
+.
+	`run
+ ("Time", 
+argc
+, 
+argv
+) == -1)
+
+17 
+	}
+}
+
+	@server.cpp
+
+1 #include 
+	~"../Simple_util.h
+"
+
+2 #include 
+	~"Time_i.h
+"
+
+7 
+	$ACE_TMAIN
+(int 
+argc
+, 
+ACE_TCHAR
+ *
+argv
+[])
+
+9 
+Server
+<
+Time_i
+> 
+server
+;
+
+11 
+	`ACE_DEBUG
+ ((
+LM_DEBUG
+,
+
+12 
+	`ACE_TEXT
+ ("\n\tTime and Date server\n\n")));
+
+14 
+try
+
+
+16 if (
+server
+.
+	`init
+ ("Time", 
+argc
+, 
+argv
+) == -1)
+
+20 
+server
+.
+	`run
+ ();
+
+23 
+	`catch
+ (const 
+CORBA
+::
+UserException
+& 
+userex
+)
+
+25 
+userex
+.
+	`_tao_print_exception
+ ("User Exception in main");
+
+28 
+	`catch
+ (const 
+CORBA
+::
+SystemException
+& 
+sysex
+)
+
+30 
+sysex
+.
+	`_tao_print_exception
+ ("System Exception in main");
+
+33 
+	`catch
+ (const 
+CORBA
+::
+Exception
+ &
+e
+)
+
+35 
+e
+.
+	`_tao_print_exception
+ ("CORBA exception in main");
+
+40 
+	}
+}
+
+	@../Simple_util.h
+
+13 #ifndef 
+TAO_UTIL_H
+
+
+14 #define 
+	#TAO_UTIL_H
+
+
+	)
+
+16 #include 
+	~"tao/Utils/ORB_Manager.h
+"
+
+17 #include 
+	~"orbsvcs/Naming/Naming_Client.h
+"
+
+18 #include 
+	~"ace/Get_Opt.h
+"
+
+19 #include 
+	~"ace/Read_Buffer.h
+"
+
+20 #include 
+	~"tao/Intrusive_Ref_Count_Handle_T.h
+"
+
+33 
+	gtemplate
+ <
+class
+ 
+	gServant
+>
+
+34 class 
+	cServer
+
+
+36 
+	mpublic
+:
+
+38 
+Server
+ (void);
+
+41 ~
+Server
+ (void);
+
+45 int 
+init
+ (const char *
+servant_name
+,
+
+46 int 
+argc
+,
+
+47 
+ACE_TCHAR
+ *
+argv
+[]);
+
+51 int 
+register_name
+ (const char *
+name
+);
+
+54 int 
+run
+ (void);
+
+58 int 
+test_for_ins
+ (const char *
+ior
+);
+
+60 
+	mprivate
+:
+
+62 int 
+parse_args
+ (void);
+
+65 typedef 
+	mTAO_Intrusive_Ref_Count_Handle
+<
+	tServant
+> 
+	tServant_var
+;
+
+66 
+Servant_var
+ 
+	mservant_
+;
+
+70 
+TAO_ORB_Manager
+ 
+	morb_manager_
+;
+
+73 
+TAO_Naming_Client
+ 
+	mnaming_client_
+;
+
+76 
+ACE_TCHAR
+ *
+	mior_output_file_
+;
+
+79 int 
+	mnaming_
+;
+
+82 
+ACE_TCHAR
+ *
+	mins_
+;
+
+85 int 
+	margc_
+;
+
+88 
+ACE_TCHAR
+ **
+	margv_
+;
+
+100 
+	gtemplate
+ <
+class
+ 
+	gServerInterface
+>
+
+101 class 
+	cClient
+
+
+103 
+	mpublic
+:
+
+105 
+Client
+ (void);
+
+108 ~
+Client
+ (void);
+
+111 int 
+init
+ (const char *
+name
+, int 
+argc
+, 
+ACE_TCHAR
+ *
+argv
+[]);
+
+114 
+ServerInterface
+ *
+	moperator
+-> () { return 
+	mserver_
+.
+in
+ (); }
+
+117 int 
+do_shutdown
+ (void);
+
+120 void 
+do_shutdown
+ (int);
+
+123 int 
+obtain_initial_references
+ (const char *
+name
+);
+
+125 
+	gCORBA
+::
+ORB_ptr
+ 
+	$orb
+ (void)
+
+127 return 
+CORBA
+::
+ORB
+::
+	`_duplicate
+ (
+this
+->
+orb_
+.
+	`in
+ ());
+
+128 
+	}
+}
+
+130 
+	gprivate
+:
+
+132 int 
+read_ior
+ (
+ACE_TCHAR
+ *
+filename
+);
+
+135 int 
+parse_args
+ (void);
+
+138 
+	gCORBA
+::
+ORB_var
+ 
+orb_
+;
+
+141 
+TAO_Naming_Client
+ 
+	gnaming_client_
+;
+
+144 int 
+	gargc_
+;
+
+147 
+ACE_TCHAR
+ **
+	gargv_
+;
+
+150 
+ACE_CString
+ 
+	gior_
+;
+
+153 typedef 
+	gTAO_Intrusive_Ref_Count_Handle
+<
+	tServerInterface
+> 
+	tServerInterface_var
+;
+
+154 
+ServerInterface_var
+ 
+	gserver_
+;
+
+157 int 
+	gnaming_
+;
+
+160 int 
+	gdo_shutdown_
+;
+
+163 #if 
+defined
+ (
+ACE_TEMPLATES_REQUIRE_SOURCE
+)
+
+164 #include 
+	~"Simple_util.cpp
+"
+
+166 #if 
+defined
+ (
+ACE_TEMPLATES_REQUIRE_PRAGMA
+)
+
+167 #pragma 
+implementation
+ ("Simple_util.cpp")
+
+	@
+1
+.
+1
+/usr/include
+13
+148
+Time.idl
+TimeC.cpp
+TimeC.h
+TimeC.inl
+TimeS.cpp
+TimeS.h
+Time_Client_i.cpp
+Time_Client_i.h
+Time_i.cpp
+Time_i.h
+client.cpp
+server.cpp
+../Simple_util.h

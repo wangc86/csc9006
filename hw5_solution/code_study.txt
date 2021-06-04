@@ -1,0 +1,7 @@
+The express at line 55 will evaluate to 1 if
+variable do_shutdown_ is equal to 1 (lines 445-450
+in file ../Simple_util.cpp).
+To achieve so, an application can either
+pass an 'x' argument via the command line (line 322)
+or explicit call the helpful function to set
+do_shutdown_ to 1 (lines 452-457).

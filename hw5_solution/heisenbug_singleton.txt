@@ -1,0 +1,31 @@
+In the following we mark four statements:
+
+class Time_Client_i
+{
+public:
+  static Time_Client_i *getInstance () {      <----- (1)
+    if(uniqueInstance == NULL) {              <----- (2)
+      uniqueInstance = new Time_Client_i ();  <----- (3)
+    }   
+    return uniqueInstance;    <--------------------- (4)
+  }
+private:
+  static Time_Client_i *uniqueInstance;
+  Time_Client_i (void);
+};
+
+Now, here is an example scenario for the heisenbug:
+
+Thread 1          Thread 2
+  (1)                 |
+  (2)                 |
+   |                 (1)
+   |                 (2)
+   |                 (3)
+   |                 (4)
+  (3)                 |
+  (4)                 |
+
+In this case, the returned object of getInstance()
+will be different. Thread 1 and Thread 2 will get
+different objects.
