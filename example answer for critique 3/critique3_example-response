@@ -1,0 +1,105 @@
+Example answers for Critique 3:
+
+For Q1:
+According to this paper, by cyber-physical codesign it means an
+integration of wireless networks and control designs. Here are a few
+things that motivate the cyber-physical codesign: First of all, in
+WSANs it is hard to meet the latency requirement of feedback control,
+since the changing wireless channel conditions would cause jitters.
+Further, there is interdependency between control and communication;
+for example, the level of sampling rate itself would affect control
+performance, and while a high sampling rate may improve control
+performance, the corresponding high data traffic may cause high
+resource contention and, consequently, may hamper control performance.
+
+For Q2: 
+Industrial process control is a discipline to ensure the required
+levels of consistency and safety for production.
+
+For Q3:
+A WirelessHART network is designed to achieve reliable communications.
+It uses a built-in time synchronization protocol, runs a TDMA protocol
+at a proper granularity, and specifies a set of dedicated transmission
+time slots to reduce jitters. For shared time slots, the senders adopt
+CSMA/CA to avoid collisions.
+
+For Q4:
+In source routing, there is one unique routing path per pair of sender
+and receiver. In graph routing, there may be multiple routing paths
+per pair of sender and receiver.
+
+For Q5:
+The packet delivery rate (PDR) is the percentage of packets that are
+successfully delivered to their destination.
+
+For Q6:
+Fixed priority scheduling for real-time WirelessHART networks may permit
+an offline schedule planning as well as an online admission test.
+Dynamic priority scheduling in this context is a NP-hard problem;
+nevertheless, the authors have proposed an effective heuristic, which
+combines LLF and knowledge about transmission conflicts.
+
+For Q7:
+For a target variable, a control loop describes all necessary components
+and functions for a system to work to bridge the gap between the measured
+variable value and the reference variable value.
+
+For Q8:
+The rate selection in this paper is designed to meet both the delay
+constraints and the stability constraints.
+
+For Q9:
+From Wikipedia, "In mathematics, a real-valued function is called convex
+if the line segment between any two points on the graph of the function
+lies above the graph between the two points."
+(https://en.wikipedia.org/wiki/Convex_function)
+
+For Q10:
+If the target function is convex, one may perform a local search and once
+the search completed, that local optima is also the global optima.
+
+For Q11:
+1. A realistic wireless radio model;
+2. A state-of-the-art WSAN protocol stack.
+
+For Q12:
+According to this paper, regular flows "are periodically generated and
+are typically stabilize a desired part of a physical system." Essentially,
+these are flows for the normal operation purposes. Emergency flows, in
+contrast, happen infrequently and are indicators of abnormal, unsafe
+situations.
+
+For Q13:
+So that the messages in emergency flows may reach to the destination sooner.
+
+For Q14:
+The key motivation is to improve the scalability of WSANs. The devices
+for conventional WSANs have short communication ranges and must rely on
+multi-hop transmissions for a broader deployment coverage. A key observation
+in this research direction is that there may exist some unused bandwidth in
+the high-frequency spectrum allocated for TV broadcasting (which by default
+has a much longer communication range). A challenge is to make use of this
+bandwidth while keeping the energy cost comparable to the existing WSAN
+technologies.
+For those of you who are interested in this direction, you are encouraged
+to read the following SenSys'16 paper:
+Abusayeed Saifullah, Mahbubur Rahman, Dali Ismail, Chenyang Lu, Ranveer
+Chandra, and Jie Liu. 2016. SNOW: Sensor Network over White Spaces. In
+Proceedings of the 14th ACM Conference on Embedded Network Sensor Systems
+CD-ROM (SenSys '16).
+
+For Q15:
+I think this paper is an excellent example of how to present a survey of
+recent advances in a particular research field. See how the introduction
+section brings up the topics and how the rest of the paper expands the
+discussion for each of the topic. Also, see how the paper pointedly
+summarizes each related work, making informative connections to the whole
+body of the exposition. From the content, we also see the need for cyber-
+physical codesign, as communication will affect the target control
+performance; in some sense, the researchers are doing the 'control' for
+the communication part of the system. If the control performance could be
+more 'indifferent' to the changing condition of the communication part,
+it could save a lot of troubles in designing the system as a whole. We may
+achieve so by making the target RT image phase-insensitive
+(review Section 5.4.2 in the textbook).
+
