@@ -1,0 +1,14 @@
+From the experimental results, for WCET=30 ms, we can see that our
+implementation for Assignment 3 did re-order the event delivery
+according to the EDF policy (compare the result with those in
+CDF_1_30ms.png, which I copied from Homework 7). In this implementation,
+we let the worker thread deliver the events to consumers. The delay is
+therefore no longer hindered by the accidental tangling of the two
+threads. Notice that, however, the delay of an event delivery might
+still depend on the previous delivery. Why? Because there is only one
+worker, the events in the EDF queue have to wait for it. You may see
+that we may further cut the delay by using multiple worker threads.
+This is essentially a motivation for the use of a thread pool :)
+
+Finally, for WCET=1 ms, the result shows not much different, because here
+the workload is too small to affect the concurrency behavior.

@@ -1,0 +1,42 @@
+From Assignment 1:
+
+1. In that way, we will have no such guarantee, because each
+TAO_EC_Default_ProxyPushConsumer object will have its own
+OurSingletonWorker object, and those OurSingletonWorker objects
+will be independent from each other. Since each event supplier
+would establish its own connection to the event service, the event
+service will push each supplier's event arrival in its own EDF
+queue. So, effectively, there will be no EDF ordering among events
+from different suppliers.
+
+2. See CDF_1_1ms.png in this folder.
+
+3. With WCET=1 millisecond, the worker thread in the event service
+may respond promptly for each pending event, and thus it would be
+less likely for the proxy thread to skip those queued events. In
+particular, the proxy thread may still skip the very event it had
+just pushed into the EDF queue, but since we have some other event
+suppliers pushing event to the event service, the proxy thread may
+handle the skipped event shortly after it pushed another event into
+the EDF queue. If we set WCET=30 milliseconds instead, we might not
+have such luck, because it may take much less than 30 milliseconds
+for all our event suppliers to finish their current round of sending.
+Finally, notice that, since we have set the time granularity to
+a millisecond, data values may stay at 0.0.
+
+4. Here's one shortcoming: the proxy thread cannot handle the new
+event arrival while it is working on pushing an event to a consumer.
+This may hinder the use of the worker thread because
+(A) What if the proxy thread gets interrupted before it could release
+the lock for EDF queue? (B) The proxy thread busying in pushing
+events to consumers may cause the worker thread stay idle.
+Besides, this approach has a shortcoming as the original approach does:
+the proxy thread may not return promptly, and this may block other
+operations, essentially reducing the responsiveness of the service.
+For example, suppose that an event supplier made a blocking send.
+
+5. This way we freed the proxy thread from preoccupying on the final
+event delivery. Also, we save one queue as well as its synchronization
+mechanisms. (In hindsight, wouldn't this look like the use of the
+Active Object pattern?)
+
